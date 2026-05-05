@@ -6,93 +6,76 @@
 <title>BIST Portföy Dashboard</title>
 <style>
   :root {
-    --bg: #ffffff; --bg2: #f5f5f3; --bg3: #efefec;
-    --text: #1a1a18; --text2: #6b6b67; --text3: #9b9b96;
-    --border: rgba(0,0,0,0.1); --border2: rgba(0,0,0,0.2);
-    --pos: #0F6E56; --neg: #A32D2D;
-    --info: #185FA5; --warn: #BA7517;
-    --radius: 8px; --radius-lg: 12px;
+    --bg:#ffffff;--bg2:#f5f5f3;--bg3:#efefec;
+    --text:#1a1a18;--text2:#6b6b67;--text3:#9b9b96;
+    --border:rgba(0,0,0,0.1);--border2:rgba(0,0,0,0.2);
+    --pos:#0F6E56;--neg:#A32D2D;--info:#185FA5;--warn:#BA7517;
+    --radius:8px;--radius-lg:12px;
   }
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --bg: #1e1e1c; --bg2: #2a2a28; --bg3: #333330;
-      --text: #f0ede8; --text2: #a8a8a3; --text3: #6b6b67;
-      --border: rgba(255,255,255,0.1); --border2: rgba(255,255,255,0.2);
-    }
+  @media(prefers-color-scheme:dark){
+    :root{--bg:#1e1e1c;--bg2:#2a2a28;--bg3:#333330;
+          --text:#f0ede8;--text2:#a8a8a3;--text3:#6b6b67;
+          --border:rgba(255,255,255,0.1);--border2:rgba(255,255,255,0.2);}
   }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-         font-size: 13px; background: var(--bg3); color: var(--text); min-height: 100vh; }
-  .page { max-width: 1400px; margin: 0 auto; padding: 1.5rem 1rem; }
-  header { margin-bottom: 1.25rem; }
-  header h1 { font-size: 18px; font-weight: 500; color: var(--text); }
-  header p  { font-size: 11px; color: var(--text3); margin-top: 3px; }
-  .metrics { display: grid; grid-template-columns: repeat(4,1fr); gap: 10px; margin-bottom: 1.25rem; }
-  .mc { background: var(--bg); border: 0.5px solid var(--border); border-radius: var(--radius);
-        padding: 10px 14px; }
-  .mc .lbl { font-size: 10px; color: var(--text2); margin-bottom: 4px; text-transform: uppercase; letter-spacing: .04em; }
-  .mc .val { font-size: 22px; font-weight: 500; }
-  .mc .sub { font-size: 10px; color: var(--text3); margin-top: 2px; }
-  .filters { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 1rem; align-items: center; }
-  .filters label { font-size: 10px; color: var(--text2); font-weight: 500; }
-  .div { width: 1px; height: 16px; background: var(--border); margin: 0 2px; }
-  .fbtn { font-size: 10px; padding: 3px 10px; border: 0.5px solid var(--border2);
-          border-radius: 20px; background: transparent; color: var(--text2);
-          cursor: pointer; transition: all .12s; }
-  .fbtn:hover { background: var(--bg2); }
-  .fbtn.active { background: var(--text); color: var(--bg); border-color: var(--text); }
-  .tbwrap { overflow-x: auto; border: 0.5px solid var(--border);
-            border-radius: var(--radius-lg); background: var(--bg); }
-  table { border-collapse: collapse; width: max-content; min-width: 100%; }
-  thead tr:first-child th { font-size: 9px; font-weight: 500; color: var(--text3);
-    text-transform: uppercase; letter-spacing: .04em; padding: 5px 7px 2px;
-    background: var(--bg2); border-bottom: none; white-space: nowrap; text-align: center; }
-  thead tr:last-child th { font-size: 9px; font-weight: 500; color: var(--text2);
-    text-transform: uppercase; padding: 3px 7px 5px; background: var(--bg2);
-    border-bottom: 0.5px solid var(--border); white-space: nowrap; }
-  th.sep, td.sep { border-left: 1.5px solid var(--border2); }
-  td { padding: 5px 7px; border-bottom: 0.5px solid var(--border); vertical-align: middle; white-space: nowrap; }
-  tr:last-child td { border-bottom: none; }
-  tr:hover td { background: var(--bg2); }
-  .tk { font-weight: 500; }
-  .sec { font-size: 9px; color: var(--text3); display: block; margin-top: 1px; }
-  .badge { display: inline-block; font-size: 9px; font-weight: 500; padding: 1px 6px; border-radius: 20px; }
-  .b-sat { background: #FCEBEB; color: #501313; }
-  .b-tut { background: #F1EFE8; color: #2C2C2A; }
-  .b-karal { background: #E1F5EE; color: #04342C; }
-  .b-haz { background: #E6F1FB; color: #042C53; }
-  .b-yok { background: #F1EFE8; color: #888780; }
-  .pos { color: var(--pos); } .neg { color: var(--neg); }
-  .rsi-wrap { display: flex; align-items: center; gap: 4px; }
-  .rsi-bar { height: 4px; border-radius: 2px; }
-  .stop-wrap { display: flex; align-items: center; gap: 4px; }
-  .stop-bar { height: 4px; border-radius: 2px; }
-  .sig-izle { color: var(--info); font-size: 9px; font-weight: 500; }
-  .sig-bekle { color: var(--text3); font-size: 9px; }
-  .tarih { display: inline-block; font-size: 11px; background: var(--bg2);
-           border: 0.5px solid var(--border); color: var(--text2);
-           padding: 3px 10px; border-radius: var(--radius); margin-bottom: 1rem; }
-  .legend { font-size: 10px; color: var(--text3); margin-top: 8px; display: flex; flex-wrap: wrap; gap: 10px; }
-  .empty { text-align: center; padding: 2rem; color: var(--text3); }
-  @media(max-width:600px){ .metrics{grid-template-columns:repeat(2,1fr);} }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+        font-size:13px;background:var(--bg3);color:var(--text);min-height:100vh}
+  .page{max-width:1400px;margin:0 auto;padding:1.5rem 1rem}
+  header{margin-bottom:1.25rem}
+  header h1{font-size:18px;font-weight:500}
+  header p{font-size:11px;color:var(--text3);margin-top:3px}
+  .metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:1.25rem}
+  .mc{background:var(--bg);border:0.5px solid var(--border);border-radius:var(--radius);padding:10px 14px}
+  .mc .lbl{font-size:10px;color:var(--text2);margin-bottom:4px;text-transform:uppercase;letter-spacing:.04em}
+  .mc .val{font-size:22px;font-weight:500}
+  .mc .sub{font-size:10px;color:var(--text3);margin-top:2px}
+  .filters{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:1rem;align-items:center}
+  .filters label{font-size:10px;color:var(--text2);font-weight:500}
+  .div{width:1px;height:16px;background:var(--border);margin:0 2px}
+  .fbtn{font-size:10px;padding:3px 10px;border:0.5px solid var(--border2);
+         border-radius:20px;background:transparent;color:var(--text2);cursor:pointer;transition:all .12s}
+  .fbtn:hover{background:var(--bg2)}
+  .fbtn.active{background:var(--text);color:var(--bg);border-color:var(--text)}
+  .tbwrap{overflow-x:auto;border:0.5px solid var(--border);border-radius:var(--radius-lg);background:var(--bg)}
+  table{border-collapse:collapse;width:max-content;min-width:100%}
+  thead tr:first-child th{font-size:9px;font-weight:500;color:var(--text3);text-transform:uppercase;
+    letter-spacing:.04em;padding:5px 7px 2px;background:var(--bg2);border-bottom:none;white-space:nowrap;text-align:center}
+  thead tr:last-child th{font-size:9px;font-weight:500;color:var(--text2);text-transform:uppercase;
+    padding:3px 7px 5px;background:var(--bg2);border-bottom:0.5px solid var(--border);white-space:nowrap}
+  th.sep,td.sep{border-left:1.5px solid var(--border2)}
+  td{padding:5px 7px;border-bottom:0.5px solid var(--border);vertical-align:middle;white-space:nowrap}
+  tr:last-child td{border-bottom:none}
+  tr:hover td{background:var(--bg2)}
+  .tk{font-weight:500}.sec{font-size:9px;color:var(--text3);display:block;margin-top:1px}
+  .badge{display:inline-block;font-size:9px;font-weight:500;padding:1px 6px;border-radius:20px}
+  .b-sat{background:#FCEBEB;color:#501313}.b-tut{background:#F1EFE8;color:#2C2C2A}
+  .b-karal{background:#E1F5EE;color:#04342C}.b-haz{background:#E6F1FB;color:#042C53}
+  .b-yok{background:#F1EFE8;color:#888780}
+  .pos{color:var(--pos)}.neg{color:var(--neg)}
+  .rsi-wrap,.stop-wrap{display:flex;align-items:center;gap:4px}
+  .rsi-bar,.stop-bar{height:4px;border-radius:2px}
+  .sig-izle{color:var(--info);font-size:9px;font-weight:500}
+  .sig-bekle{color:var(--text3);font-size:9px}
+  .tarih{display:inline-block;font-size:11px;background:var(--bg2);border:0.5px solid var(--border);
+          color:var(--text2);padding:3px 10px;border-radius:var(--radius);margin-bottom:1rem}
+  .legend{font-size:10px;color:var(--text3);margin-top:8px;display:flex;flex-wrap:wrap;gap:10px}
+  @media(max-width:600px){.metrics{grid-template-columns:repeat(2,1fr)}}
+  @media(prefers-color-scheme:dark){
+    .b-sat{background:#501313;color:#F7C1C1}.b-tut{background:#2C2C2A;color:#D3D1C7}
+    .b-karal{background:#04342C;color:#9FE1CB}.b-haz{background:#042C53;color:#B5D4F4}
+  }
 </style>
 </head>
 <body>
 <div class="page">
-  <header>
-    <h1>BIST Portföy Dashboard</h1>
-    <p>Portföy + Mavi Liste teknik analiz tablosu</p>
-  </header>
-
-  <div class="tarih" id="tarih-badge">Veri: —</div>
-
+  <header><h1>BIST Portföy Dashboard</h1><p>Portföy + Mavi Liste — teknik analiz</p></header>
+  <div class="tarih">Veri: 05.05.2026 — yfinance</div>
   <div class="metrics">
     <div class="mc"><div class="lbl">Portföy Değeri</div><div class="val" id="m-val">—</div><div class="sub">Güncel toplam</div></div>
     <div class="mc"><div class="lbl">Net K/Z</div><div class="val" id="m-kz">—</div><div class="sub">TL bazında</div></div>
     <div class="mc"><div class="lbl">İzle / Hazırlan</div><div class="val" id="m-izle" style="color:var(--info)">—</div><div class="sub">Filtreli sayı</div></div>
     <div class="mc"><div class="lbl">Sat / Kar Al</div><div class="val" id="m-aksiyon" style="color:var(--neg)">—</div><div class="sub">Filtreli sayı</div></div>
   </div>
-
   <div class="filters">
     <label>Liste:</label>
     <button class="fbtn active" onclick="setF('liste','all',this)">Tümü</button>
@@ -111,7 +94,6 @@
     <button class="fbtn" onclick="setF('sinyal','İZLE',this)" data-g="sinyal">İZLE</button>
     <button class="fbtn" onclick="setF('sinyal','BEKLE',this)" data-g="sinyal">BEKLE</button>
   </div>
-
   <div class="tbwrap"><table>
     <thead>
       <tr>
@@ -131,8 +113,7 @@
         <th class="sep">Destek</th><th>Direnç</th><th>Des.1y</th><th>Dir.1y</th>
         <th class="sep">BB Alt</th><th>BB Üst</th>
         <th class="sep">Alış Al.</th><th>Satış Al.</th><th>Stop</th><th>Stop%</th>
-        <th class="sep"></th>
-        <th class="sep">Sinyal</th>
+        <th class="sep"></th><th class="sep">Sinyal</th>
       </tr>
     </thead>
     <tbody id="tb"></tbody>
@@ -140,47 +121,42 @@
   <div class="legend">
     <span>RSI: <span style="color:#A32D2D">&gt;70</span> aşırı alım · <span style="color:#0F6E56">&lt;35</span> aşırı satım</span>
     <span>Stop%: mevcut fiyattan stop-loss'a mesafe</span>
-    <span>Des/Dir 1y: 52 haftalık destek/direnç</span>
   </div>
 </div>
-
 <script>
 const DATA=[
-  {t:'TSKB',l:'Portföy',s:'banka',alis:12.30,adet:63,kzTL:-42.21,kzPct:-5.45,f:11.63,rsi:42.0,macd:'✗',ema20:11.93,des20:11.26,dir20:12.71,des1y:9.77,dir1y:14.05,bbA:11.36,bbU:12.74,alA:11.57,saA:12.46,stop:10.70,ka:13.35,o:'TUT',sig:'BEKLE'},
-  {t:'AKBNK',l:'Portföy',s:'banka',alis:75.40,adet:16,kzTL:-71.20,kzPct:-5.90,f:70.95,rsi:39.6,macd:'✗',ema20:75.13,des20:68.50,dir20:83.85,des1y:47.07,dir1y:90.60,bbA:68.61,bbU:84.12,alA:72.87,saA:82.17,stop:65.08,ka:88.04,o:'TUT',sig:'BEKLE'},
-  {t:'CCOLA',l:'Portföy',s:'tüketim',alis:74.30,adet:10,kzTL:49.50,kzPct:6.66,f:79.25,rsi:62.8,macd:'✗',ema20:75.36,des20:66.35,dir20:82.35,des1y:45.14,dir1y:82.35,bbA:67.70,bbU:82.71,alA:73.10,saA:80.70,stop:63.03,ka:86.47,o:'TUT',sig:'BEKLE'},
-  {t:'ISCTR',l:'Portföy',s:'banka',alis:14.07,adet:9,kzTL:-0.45,kzPct:-0.36,f:14.02,rsi:47.1,macd:'✗',ema20:14.21,des20:13.04,dir20:15.19,des1y:9.68,dir1y:17.46,bbA:13.35,bbU:15.31,alA:13.78,saA:14.89,stop:12.39,ka:15.95,o:'TUT',sig:'BEKLE'},
-  {t:'ENJSA',l:'Portföy',s:'enerji',alis:118.00,adet:5,kzTL:8.50,kzPct:1.44,f:119.70,rsi:51.6,macd:'✗',ema20:120.04,des20:112.52,dir20:127.90,des1y:49.16,dir1y:127.90,bbA:113.43,bbU:128.16,alA:116.44,saA:125.34,stop:106.89,ka:134.30,o:'TUT',sig:'BEKLE'},
-  {t:'EKGYO',l:'Portföy',s:'gayrimenkul',alis:21.80,adet:5,kzTL:-9.60,kzPct:-8.81,f:19.88,rsi:41.9,macd:'✗',ema20:20.67,des20:19.12,dir20:22.34,des1y:11.54,dir1y:27.12,bbA:19.35,bbU:22.26,alA:20.05,saA:21.89,stop:18.16,ka:23.46,o:'TUT',sig:'BEKLE'},
-  {t:'AGHOL',l:'Portföy',s:'holding',alis:31.16,adet:4,kzTL:8.64,kzPct:6.93,f:33.32,rsi:65.9,macd:'✓',ema20:30.88,des20:27.36,dir20:33.46,des1y:23.88,dir1y:37.56,bbA:28.05,bbU:33.36,alA:29.96,saA:32.79,stop:25.99,ka:35.13,o:'İZLE/HAZIRLAN',sig:'İZLE'},
-  {t:'GARAN',l:'Portföy',s:'banka',alis:141.50,adet:3,kzTL:-35.10,kzPct:-8.27,f:129.80,rsi:41.9,macd:'✗',ema20:134.81,des20:126.80,dir20:147.70,des1y:94.91,dir1y:163.11,bbA:126.91,bbU:146.42,alA:130.77,saA:144.75,stop:120.46,ka:155.08,o:'TUT',sig:'BEKLE'},
-  {t:'TUPRS',l:'Portföy',s:'enerji',alis:252.50,adet:2,kzTL:35.00,kzPct:6.93,f:270.00,rsi:58.0,macd:'✓',ema20:263.53,des20:240.20,dir20:279.50,des1y:108.35,dir1y:279.50,bbA:247.83,bbU:278.39,alA:255.63,saA:273.91,stop:228.19,ka:293.48,o:'İZLE/HAZIRLAN',sig:'İZLE'},
-  {t:'FROTO',l:'Portföy',s:'otomotiv',alis:106.00,adet:2,kzTL:-20.10,kzPct:-9.48,f:95.95,rsi:36.0,macd:'✗',ema20:101.60,des20:95.65,dir20:109.30,des1y:71.54,dir1y:130.91,bbA:94.51,bbU:110.19,alA:98.56,saA:107.11,stop:90.87,ka:114.77,o:'TUT',sig:'BEKLE'},
-  {t:'SELEC',l:'Portföy',s:'sağlık',alis:90.15,adet:2,kzTL:26.70,kzPct:14.81,f:103.50,rsi:78.2,macd:'✓',ema20:93.44,des20:79.86,dir20:106.80,des1y:61.69,dir1y:106.97,bbA:77.20,bbU:105.78,alA:90.63,saA:104.66,stop:75.86,ka:112.14,o:'TUT',sig:'BEKLE'},
-  {t:'THYAO',l:'Portföy',s:'havacılık',alis:320.25,adet:1,kzTL:-18.00,kzPct:-5.62,f:302.25,rsi:42.4,macd:'✗',ema20:312.33,des20:291.75,dir20:335.00,des1y:246.66,dir1y:352.50,bbA:295.31,bbU:336.79,alA:302.96,saA:328.30,stop:277.16,ka:351.75,o:'TUT',sig:'BEKLE'},
-  {t:'GESAN',l:'Mavi',s:'sanayi',f:52.80,rsi:64.8,macd:'✓',ema20:48.69,des20:45.92,dir20:54.05,des1y:38.00,dir1y:61.55,bbA:45.22,bbU:52.32,alA:47.23,saA:52.97,stop:43.62,ka:56.75,o:'İZLE/HAZIRLAN',sig:'İZLE'},
-  {t:'EREGL',l:'Mavi',s:'çelik',f:37.50,rsi:74.9,macd:'✓',ema20:32.87,des20:28.84,dir20:37.68,des1y:21.77,dir1y:37.68,bbA:28.27,bbU:36.66,alA:31.89,saA:36.93,stop:27.40,ka:39.56,o:'İZLE/HAZIRLAN',sig:'İZLE'},
-  {t:'ATATP',l:'Mavi',s:'holding',f:164.80,rsi:68.0,macd:'✓',ema20:147.37,des20:134.30,dir20:167.50,des1y:71.70,dir1y:190.80,bbA:132.28,bbU:157.53,alA:142.95,saA:164.15,stop:127.59,ka:175.88,o:'İZLE/HAZIRLAN',sig:'İZLE'},
-  {t:'TUREX',l:'Mavi',s:'turizm',f:8.89,rsi:62.1,macd:'✓',ema20:8.44,des20:7.46,dir20:9.39,des1y:6.49,dir1y:50.95,bbA:7.59,bbU:9.29,alA:8.19,saA:9.20,stop:7.09,ka:9.86,o:'İZLE/HAZIRLAN',sig:'İZLE'},
-  {t:'ASELS',l:'Mavi',s:'savunma',f:430.50,rsi:69.3,macd:'✓',ema20:399.96,des20:327.75,dir20:443.50,des1y:126.74,dir1y:443.50,bbA:348.17,bbU:453.41,alA:387.96,saA:434.63,stop:311.36,ka:465.68,o:'İZLE/HAZIRLAN',sig:'İZLE'},
-  {t:'GWIND',l:'Mavi',s:'enerji',f:29.50,rsi:57.6,macd:'✓',ema20:28.21,des20:25.64,dir20:33.62,des1y:20.06,dir1y:33.62,bbA:24.72,bbU:31.27,alA:27.37,saA:32.95,stop:24.36,ka:35.30,o:'İZLE/HAZIRLAN',sig:'İZLE'},
-  {t:'OYAKC',l:'Mavi',s:'çimento',f:23.84,rsi:44.4,macd:'✗',ema20:24.29,des20:23.20,dir20:26.36,des1y:18.62,dir1y:28.56,bbA:23.14,bbU:26.13,alA:23.56,saA:25.83,stop:22.04,ka:27.68,o:'TUT',sig:'BEKLE'},
-  {t:'ASTOR',l:'Mavi',s:'enerji',f:292.75,rsi:82.1,macd:'✓',ema20:235.48,des20:189.40,dir20:303.75,des1y:80.60,dir1y:303.75,bbA:159.57,bbU:290.47,alA:228.41,saA:297.68,stop:179.93,ka:318.94,o:'TUT',sig:'BEKLE'},
-  {t:'TRGYO',l:'Mavi',s:'gayrimenkul',f:98.75,rsi:76.7,macd:'✓',ema20:93.86,des20:87.35,dir20:99.85,des1y:55.80,dir1y:99.85,bbA:86.15,bbU:100.44,alA:91.04,saA:97.85,stop:82.98,ka:104.84,o:'TUT',sig:'BEKLE'},
-  {t:'EGGUB',l:'Mavi',s:'tarım',f:125.20,rsi:56.0,macd:'✗',ema20:122.96,des20:115.30,dir20:133.20,des1y:64.69,dir1y:135.00,bbA:117.40,bbU:128.56,alA:119.27,saA:130.54,stop:109.54,ka:139.86,o:'TUT',sig:'BEKLE'},
-  {t:'KCHOL',l:'Mavi',s:'holding',f:199.10,rsi:48.3,macd:'✗',ema20:201.29,des20:189.50,dir20:212.00,des1y:128.88,dir1y:220.84,bbA:193.16,bbU:212.67,alA:195.25,saA:207.76,stop:180.03,ka:222.60,o:'TUT',sig:'BEKLE'},
-  {t:'MGROS',l:'Mavi',s:'perakende',f:642.50,rsi:53.1,macd:'✗',ema20:637.31,des20:593.00,dir20:674.50,des1y:412.49,dir1y:698.50,bbA:604.36,bbU:678.69,alA:618.19,saA:661.01,stop:563.35,ka:708.23,o:'TUT',sig:'BEKLE'},
-  {t:'TKFEN',l:'Mavi',s:'inşaat',f:136.90,rsi:68.6,macd:'✓',ema20:125.31,des20:95.10,dir20:145.50,des1y:66.69,dir1y:145.50,bbA:93.58,bbU:153.60,alA:121.55,saA:142.59,stop:90.34,ka:152.78,o:'İZLE/HAZIRLAN',sig:'İZLE'},
-  {t:'EUPWR',l:'Mavi',s:'enerji',f:54.50,rsi:75.8,macd:'✓',ema20:45.51,des20:38.76,dir20:57.60,des1y:23.30,dir1y:57.60,bbA:34.78,bbU:54.16,alA:44.14,saA:56.45,stop:36.82,ka:60.48,o:'TUT',sig:'BEKLE'},
-  {t:'ANSGR',l:'Mavi',s:'sigorta',f:30.00,rsi:72.9,macd:'✓',ema20:28.29,des20:25.32,dir20:31.52,des1y:18.56,dir1y:31.52,bbA:25.73,bbU:30.43,alA:27.44,saA:30.89,stop:24.05,ka:33.10,o:'İZLE/HAZIRLAN',sig:'İZLE'},
-  {t:'ESCOM',l:'Mavi',s:'teknoloji',f:5.82,rsi:62.8,macd:'✓',ema20:5.11,des20:4.24,dir20:6.31,des1y:2.41,dir1y:6.93,bbA:3.74,bbU:5.96,alA:4.96,saA:6.18,stop:4.03,ka:6.63,o:'İZLE/HAZIRLAN',sig:'İZLE'},
+  {t:"TSKB",l:"Portf\u00f6y",s:"banka",alis:12.3,adet:63,kzTL:-42.21,kzPct:-5.45,toplam:732.69,f:11.630000114440918,rsi:42.0,macd:"\u2717",ema20:11.93,des20:11.26,dir20:12.71,des1y:9.77,dir1y:14.05,bbA:11.36,bbU:12.74,alA:11.57,saA:12.46,stop:10.7,ka:13.35,o:"TUT",sig:"BEKLE"},
+  {t:"AKBNK",l:"Portf\u00f6y",s:"banka",alis:75.4,adet:16,kzTL:-69.6,kzPct:-5.77,toplam:1136.8,f:71.05000305175781,rsi:39.9,macd:"\u2717",ema20:75.14,des20:68.5,dir20:83.85,des1y:47.07,dir1y:90.6,bbA:68.63,bbU:84.11,alA:72.88,saA:82.17,stop:65.08,ka:88.04,o:"TUT",sig:"BEKLE"},
+  {t:"CCOLA",l:"Portf\u00f6y",s:"t\u00fcketim",alis:74.3,adet:10,kzTL:48.5,kzPct:6.53,toplam:791.5,f:79.1500015258789,rsi:62.6,macd:"\u2717",ema20:75.35,des20:66.35,dir20:82.35,des1y:45.14,dir1y:82.35,bbA:67.7,bbU:82.69,alA:73.09,saA:80.7,stop:63.03,ka:86.47,o:"TUT",sig:"BEKLE"},
+  {t:"ISCTR",l:"Portf\u00f6y",s:"banka",alis:14.07,adet:9,kzTL:-0.54,kzPct:-0.43,toplam:126.09,f:14.010000228881836,rsi:47.0,macd:"\u2717",ema20:14.2,des20:13.04,dir20:15.19,des1y:9.68,dir1y:17.46,bbA:13.35,bbU:15.31,alA:13.78,saA:14.89,stop:12.39,ka:15.95,o:"TUT",sig:"BEKLE"},
+  {t:"ENJSA",l:"Portf\u00f6y",s:"enerji",alis:118.0,adet:5,kzTL:4.5,kzPct:0.76,toplam:594.5,f:118.9000015258789,rsi:50.4,macd:"\u2717",ema20:119.96,des20:112.52,dir20:127.9,des1y:49.16,dir1y:127.9,bbA:113.36,bbU:128.15,alA:116.36,saA:125.34,stop:106.89,ka:134.3,o:"TUT",sig:"BEKLE"},
+  {t:"EKGYO",l:"Portf\u00f6y",s:"gayrimenkul",alis:21.8,adet:5,kzTL:-9.05,kzPct:-8.3,toplam:99.95,f:19.989999771118164,rsi:43.0,macd:"\u2717",ema20:20.68,des20:19.12,dir20:22.34,des1y:11.54,dir1y:27.12,bbA:19.37,bbU:22.25,alA:20.06,saA:21.89,stop:18.16,ka:23.46,o:"TUT",sig:"BEKLE"},
+  {t:"AGHOL",l:"Portf\u00f6y",s:"holding",alis:31.16,adet:4,kzTL:8.48,kzPct:6.8,toplam:133.12,f:33.279998779296875,rsi:65.8,macd:"\u2713",ema20:30.88,des20:27.36,dir20:33.46,des1y:23.88,dir1y:37.56,bbA:28.05,bbU:33.35,alA:29.95,saA:32.79,stop:25.99,ka:35.13,o:"\u0130ZLE/HAZIRLAN",sig:"\u0130ZLE"},
+  {t:"GARAN",l:"Portf\u00f6y",s:"banka",alis:141.5,adet:3,kzTL:-35.1,kzPct:-8.27,toplam:389.4,f:129.8000030517578,rsi:41.9,macd:"\u2717",ema20:134.81,des20:126.8,dir20:147.7,des1y:94.91,dir1y:163.11,bbA:126.91,bbU:146.42,alA:130.77,saA:144.75,stop:120.46,ka:155.08,o:"TUT",sig:"BEKLE"},
+  {t:"TUPRS",l:"Portf\u00f6y",s:"enerji",alis:252.5,adet:2,kzTL:36.0,kzPct:7.13,toplam:541.0,f:270.5,rsi:58.4,macd:"\u2713",ema20:263.58,des20:240.2,dir20:279.5,des1y:108.35,dir1y:279.5,bbA:247.81,bbU:278.46,alA:255.67,saA:273.91,stop:228.19,ka:293.48,o:"\u0130ZLE/HAZIRLAN",sig:"\u0130ZLE"},
+  {t:"FROTO",l:"Portf\u00f6y",s:"otomotiv",alis:106.0,adet:2,kzTL:-19.3,kzPct:-9.1,toplam:192.7,f:96.3499984741211,rsi:37.0,macd:"\u2717",ema20:101.64,des20:95.65,dir20:109.3,des1y:71.54,dir1y:130.91,bbA:94.59,bbU:110.15,alA:98.59,saA:107.11,stop:90.87,ka:114.77,o:"TUT",sig:"BEKLE"},
+  {t:"SELEC",l:"Portf\u00f6y",s:"sa\u011fl\u0131k",alis:90.15,adet:2,kzTL:26.7,kzPct:14.81,toplam:207.0,f:103.5,rsi:78.2,macd:"\u2713",ema20:93.44,des20:79.86,dir20:106.8,des1y:61.69,dir1y:106.97,bbA:77.2,bbU:105.78,alA:90.63,saA:104.66,stop:75.86,ka:112.14,o:"TUT",sig:"BEKLE"},
+  {t:"THYAO",l:"Portf\u00f6y",s:"havac\u0131l\u0131k",alis:320.25,adet:1,kzTL:-17.5,kzPct:-5.46,toplam:302.75,f:302.75,rsi:42.8,macd:"\u2717",ema20:312.37,des20:291.75,dir20:335.0,des1y:246.66,dir1y:352.5,bbA:295.4,bbU:336.75,alA:303.0,saA:328.3,stop:277.16,ka:351.75,o:"TUT",sig:"BEKLE"},
+  {t:"GESAN",l:"Mavi",s:"sanayi",alis:null,adet:null,kzTL:null,kzPct:null,toplam:null,f:52.849998474121094,rsi:64.9,macd:"\u2713",ema20:48.7,des20:45.92,dir20:54.05,des1y:38.0,dir1y:61.55,bbA:45.21,bbU:52.34,alA:47.24,saA:52.97,stop:43.62,ka:56.75,o:"\u0130ZLE/HAZIRLAN",sig:"\u0130ZLE"},
+  {t:"EREGL",l:"Mavi",s:"\u00e7elik",alis:null,adet:null,kzTL:null,kzPct:null,toplam:null,f:37.439998626708984,rsi:74.7,macd:"\u2713",ema20:32.87,des20:28.84,dir20:37.7,des1y:21.77,dir1y:37.7,bbA:28.28,bbU:36.64,alA:31.88,saA:36.95,stop:27.4,ka:39.59,o:"\u0130ZLE/HAZIRLAN",sig:"\u0130ZLE"},
+  {t:"ATATP",l:"Mavi",s:"holding",alis:null,adet:null,kzTL:null,kzPct:null,toplam:null,f:164.60000610351562,rsi:67.9,macd:"\u2713",ema20:147.35,des20:134.3,dir20:167.5,des1y:71.7,dir1y:190.8,bbA:132.34,bbU:157.45,alA:142.93,saA:164.15,stop:127.59,ka:175.88,o:"\u0130ZLE/HAZIRLAN",sig:"\u0130ZLE"},
+  {t:"TUREX",l:"Mavi",s:"turizm",alis:null,adet:null,kzTL:null,kzPct:null,toplam:null,f:8.920000076293945,rsi:62.5,macd:"\u2713",ema20:8.44,des20:7.46,dir20:9.39,des1y:6.49,dir1y:50.95,bbA:7.59,bbU:9.29,alA:8.19,saA:9.2,stop:7.09,ka:9.86,o:"\u0130ZLE/HAZIRLAN",sig:"\u0130ZLE"},
+  {t:"ASELS",l:"Mavi",s:"savunma",alis:null,adet:null,kzTL:null,kzPct:null,toplam:null,f:427.75,rsi:67.6,macd:"\u2713",ema20:399.7,des20:327.75,dir20:443.5,des1y:126.74,dir1y:443.5,bbA:348.33,bbU:452.97,alA:387.71,saA:434.63,stop:311.36,ka:465.68,o:"\u0130ZLE/HAZIRLAN",sig:"\u0130ZLE"},
+  {t:"GWIND",l:"Mavi",s:"enerji",alis:null,adet:null,kzTL:null,kzPct:null,toplam:null,f:29.3799991607666,rsi:57.0,macd:"\u2713",ema20:28.2,des20:25.64,dir20:33.62,des1y:20.06,dir1y:33.62,bbA:24.73,bbU:31.25,alA:27.36,saA:32.95,stop:24.36,ka:35.3,o:"\u0130ZLE/HAZIRLAN",sig:"\u0130ZLE"},
+  {t:"OYAKC",l:"Mavi",s:"\u00e7imento",alis:null,adet:null,kzTL:null,kzPct:null,toplam:null,f:23.920000076293945,rsi:45.4,macd:"\u2717",ema20:24.3,des20:23.2,dir20:26.36,des1y:18.62,dir1y:28.56,bbA:23.15,bbU:26.12,alA:23.57,saA:25.83,stop:22.04,ka:27.68,o:"TUT",sig:"BEKLE"},
+  {t:"ASTOR",l:"Mavi",s:"enerji",alis:null,adet:null,kzTL:null,kzPct:null,toplam:null,f:295.25,rsi:82.5,macd:"\u2713",ema20:235.72,des20:189.4,dir20:303.75,des1y:80.6,dir1y:303.75,bbA:159.17,bbU:291.12,alA:228.65,saA:297.68,stop:179.93,ka:318.94,o:"TUT",sig:"BEKLE"},
+  {t:"TRGYO",l:"Mavi",s:"gayrimenkul",alis:null,adet:null,kzTL:null,kzPct:null,toplam:null,f:98.8499984741211,rsi:77.3,macd:"\u2713",ema20:93.87,des20:87.35,dir20:99.85,des1y:55.8,dir1y:99.85,bbA:86.13,bbU:100.46,alA:91.05,saA:97.85,stop:82.98,ka:104.84,o:"TUT",sig:"BEKLE"},
+  {t:"EGGUB",l:"Mavi",s:"tar\u0131m",alis:null,adet:null,kzTL:null,kzPct:null,toplam:null,f:124.5,rsi:55.0,macd:"\u2717",ema20:122.89,des20:115.3,dir20:133.2,des1y:64.69,dir1y:135.0,bbA:117.41,bbU:128.48,alA:119.2,saA:130.54,stop:109.54,ka:139.86,o:"TUT",sig:"BEKLE"},
+  {t:"KCHOL",l:"Mavi",s:"holding",alis:null,adet:null,kzTL:null,kzPct:null,toplam:null,f:199.5,rsi:48.8,macd:"\u2717",ema20:201.33,des20:189.5,dir20:212.0,des1y:128.88,dir1y:220.84,bbA:193.21,bbU:212.66,alA:195.29,saA:207.76,stop:180.03,ka:222.6,o:"TUT",sig:"BEKLE"},
+  {t:"MGROS",l:"Mavi",s:"perakende",alis:null,adet:null,kzTL:null,kzPct:null,toplam:null,f:641.5,rsi:52.7,macd:"\u2717",ema20:637.22,des20:593.0,dir20:674.5,des1y:412.49,dir1y:698.5,bbA:604.31,bbU:678.64,alA:618.1,saA:661.01,stop:563.35,ka:708.23,o:"TUT",sig:"BEKLE"},
+  {t:"TKFEN",l:"Mavi",s:"in\u015faat",alis:null,adet:null,kzTL:null,kzPct:null,toplam:null,f:136.60000610351562,rsi:68.2,macd:"\u2713",ema20:125.28,des20:95.1,dir20:145.5,des1y:66.69,dir1y:145.5,bbA:93.59,bbU:153.55,alA:121.52,saA:142.59,stop:90.34,ka:152.78,o:"\u0130ZLE/HAZIRLAN",sig:"\u0130ZLE"},
+  {t:"EUPWR",l:"Mavi",s:"enerji",alis:null,adet:null,kzTL:null,kzPct:null,toplam:null,f:55.79999923706055,rsi:79.6,macd:"\u2713",ema20:45.63,des20:38.76,dir20:57.6,des1y:23.3,dir1y:57.6,bbA:34.56,bbU:54.5,alA:44.26,saA:56.45,stop:36.82,ka:60.48,o:"TUT",sig:"BEKLE"},
+  {t:"ANSGR",l:"Mavi",s:"sigorta",alis:null,adet:null,kzTL:null,kzPct:null,toplam:null,f:29.940000534057617,rsi:72.0,macd:"\u2713",ema20:28.29,des20:25.32,dir20:31.52,des1y:18.56,dir1y:31.52,bbA:25.74,bbU:30.42,alA:27.44,saA:30.89,stop:24.05,ka:33.1,o:"\u0130ZLE/HAZIRLAN",sig:"\u0130ZLE"},
+  {t:"ESCOM",l:"Mavi",s:"teknoloji",alis:null,adet:null,kzTL:null,kzPct:null,toplam:null,f:5.800000190734863,rsi:62.4,macd:"\u2713",ema20:5.11,des20:4.24,dir20:6.31,des1y:2.41,dir1y:6.93,bbA:3.74,bbU:5.96,alA:4.95,saA:6.18,stop:4.03,ka:6.63,o:"\u0130ZLE/HAZIRLAN",sig:"\u0130ZLE"}
 ];
-
 const filters={liste:'all',oneri:'all',sinyal:'all'};
 const ob={TUT:'b-tut','İZLE/HAZIRLAN':'b-haz','KAR AL':'b-karal',SAT:'b-sat','—':'b-yok'};
-
 function f(n,d=2){return n!=null?n.toLocaleString('tr-TR',{minimumFractionDigits:d,maximumFractionDigits:d}):'—';}
-
 function rsiCell(v){
   if(v==null)return '—';
   const c=v>70?'#E24B4A':v<35?'#1D9E75':'#378ADD';
@@ -193,7 +169,6 @@ function stopCell(fiyat,stop){
   const c=pct<5?'#E24B4A':pct<10?'#BA7517':'#1D9E75';
   return `<div class="stop-wrap"><div class="stop-bar" style="width:${Math.min(pct/20*32,32).toFixed(0)}px;background:${c}"></div><span style="font-size:10px;color:${c}">-${pct.toFixed(1)}%</span></div>`;
 }
-
 function render(){
   const rows=DATA.filter(d=>{
     if(filters.liste!=='all'&&d.l!==filters.liste)return false;
@@ -201,19 +176,17 @@ function render(){
     if(filters.sinyal!=='all'&&d.sig!==filters.sinyal)return false;
     return true;
   });
-  const portfoy=rows.filter(d=>d.l==='Portföy');
-  const totVal=portfoy.reduce((s,d)=>s+(d.f*(d.adet||0)),0);
-  const totKZ=portfoy.reduce((s,d)=>s+(d.kzTL||0),0);
+  const p=rows.filter(d=>d.l==='Portföy');
+  const totVal=p.reduce((s,d)=>s+(d.f*(d.adet||0)),0);
+  const totKZ=p.reduce((s,d)=>s+(d.kzTL||0),0);
   document.getElementById('m-val').textContent=f(totVal,0)+' ₺';
   const kzEl=document.getElementById('m-kz');
   kzEl.textContent=(totKZ>=0?'+':'')+f(totKZ)+' ₺';
   kzEl.style.color=totKZ>=0?'var(--pos)':'var(--neg)';
   document.getElementById('m-izle').textContent=rows.filter(d=>d.o==='İZLE/HAZIRLAN').length;
   document.getElementById('m-aksiyon').textContent=rows.filter(d=>d.o==='SAT'||d.o==='KAR AL').length;
-  document.getElementById('tarih-badge').textContent='Veri: 05.05.2026 — yfinance';
-
   const tb=document.getElementById('tb');
-  if(!rows.length){tb.innerHTML='<tr><td colspan="22" class="empty">Sonuç bulunamadı</td></tr>';return;}
+  if(!rows.length){tb.innerHTML='<tr><td colspan="22" style="text-align:center;padding:2rem;color:var(--text3)">Sonuç bulunamadı</td></tr>';return;}
   tb.innerHTML=rows.map(d=>{
     const lTag=d.l==='Portföy'?'<span style="color:#A32D2D;font-size:10px;font-weight:500">P</span>':'<span style="color:#185FA5;font-size:10px;font-weight:500">M</span>';
     const sig=d.sig==='İZLE'?'<span class="sig-izle">İZLE</span>':'<span class="sig-bekle">BEKLE</span>';
@@ -223,8 +196,10 @@ function render(){
       <td style="text-align:center">${lTag}</td>
       <td class="sep" style="color:var(--text2)">${d.alis!=null?f(d.alis):'—'}</td>
       <td>${d.adet!=null?d.adet:'—'}</td>
-      <td class="${d.kzTL!=null?(d.kzTL>=0?'pos':'neg'):''}">${d.kzTL!=null?(d.kzTL>=0?'+':'')+f(d.kzTL):'—'}</td>
-      <td class="${d.kzPct!=null?(d.kzPct>=0?'pos':'neg'):''}">${d.kzPct!=null?(d.kzPct>=0?'+':'')+f(Math.abs(d.kzPct))+'%':'—'}</td>
+      <td class="${d.kzTL!=null?(d.kzTL>=0?'pos':'neg'):''}">
+        ${d.kzTL!=null?(d.kzTL>=0?'+':'')+f(d.kzTL):'—'}</td>
+      <td class="${d.kzPct!=null?(d.kzPct>=0?'pos':'neg'):''}">
+        ${d.kzPct!=null?(d.kzPct>=0?'+':'')+f(Math.abs(d.kzPct))+'%':'—'}</td>
       <td class="sep" style="font-weight:500">${f(d.f)}</td>
       <td>${rsiCell(d.rsi)}</td>
       <td style="text-align:center;font-size:12px;color:${d.macd==='✓'?'#1D9E75':'#E24B4A'}">${d.macd}</td>
@@ -243,13 +218,12 @@ function render(){
     </tr>`;
   }).join('');
 }
-
 function setF(key,val,btn){
   filters[key]=val;
   const grp=btn.dataset.g;
-  if(grp) document.querySelectorAll(`[data-g="${grp}"]`).forEach(b=>b.classList.remove('active'));
+  if(grp)document.querySelectorAll(`[data-g="${grp}"]`).forEach(b=>b.classList.remove('active'));
   else document.querySelectorAll('.fbtn:not([data-g])').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active'); render();
+  btn.classList.add('active');render();
 }
 render();
 </script>
