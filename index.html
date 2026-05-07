@@ -3,79 +3,84 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>BIST Portföy Dashboard — 07.05.2026</title>
+<title>BIST Dashboard — 08.05.2026</title>
 <style>
   :root {
     --bg:#ffffff;--bg2:#f5f5f3;--bg3:#efefec;
     --text:#1a1a18;--text2:#6b6b67;--text3:#9b9b96;
-    --border:rgba(0,0,0,0.1);--border2:rgba(0,0,0,0.2);
-    --pos:#0F6E56;--neg:#A32D2D;--info:#185FA5;
+    --border:rgba(0,0,0,0.08);--border2:rgba(0,0,0,0.18);
+    --pos:#0F6E56;--neg:#A32D2D;--info:#185FA5;--warn:#BA7517;
     --radius:8px;--radius-lg:12px;
   }
   @media(prefers-color-scheme:dark){
     :root{--bg:#1e1e1c;--bg2:#2a2a28;--bg3:#333330;
           --text:#f0ede8;--text2:#a8a8a3;--text3:#6b6b67;
-          --border:rgba(255,255,255,0.1);--border2:rgba(255,255,255,0.2);}
+          --border:rgba(255,255,255,0.08);--border2:rgba(255,255,255,0.18);}
   }
   *{box-sizing:border-box;margin:0;padding:0}
   body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
-        font-size:13px;background:var(--bg3);color:var(--text);min-height:100vh}
-  .page{max-width:1600px;margin:0 auto;padding:1.5rem 1rem}
-  header{margin-bottom:1.25rem}
-  header h1{font-size:18px;font-weight:500}
-  header p{font-size:11px;color:var(--text3);margin-top:3px}
-  .metrics{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:1.25rem}
-  .mc{background:var(--bg);border:0.5px solid var(--border);border-radius:var(--radius);padding:10px 14px}
-  .mc .lbl{font-size:10px;color:var(--text2);margin-bottom:4px;text-transform:uppercase;letter-spacing:.04em}
-  .mc .val{font-size:20px;font-weight:500}
-  .mc .sub{font-size:10px;color:var(--text3);margin-top:2px}
-  .filters{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:1rem;align-items:center}
+        font-size:12px;background:var(--bg3);color:var(--text);min-height:100vh}
+  .page{max-width:1800px;margin:0 auto;padding:1.5rem 1rem}
+  header{margin-bottom:1rem}
+  header h1{font-size:17px;font-weight:500}
+  header p{font-size:11px;color:var(--text3);margin-top:2px}
+  .metrics{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin-bottom:1rem}
+  .mc{background:var(--bg);border:0.5px solid var(--border);border-radius:var(--radius);padding:9px 12px}
+  .mc .lbl{font-size:9px;color:var(--text2);margin-bottom:3px;text-transform:uppercase;letter-spacing:.04em}
+  .mc .val{font-size:18px;font-weight:500}
+  .mc .sub{font-size:9px;color:var(--text3);margin-top:2px}
+  .filters{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:.8rem;align-items:center}
   .filters label{font-size:10px;color:var(--text2);font-weight:500}
-  .div{width:1px;height:16px;background:var(--border);margin:0 2px}
-  .fbtn{font-size:10px;padding:3px 10px;border:0.5px solid var(--border2);
+  .div{width:1px;height:14px;background:var(--border2);margin:0 2px}
+  .fbtn{font-size:10px;padding:2px 9px;border:0.5px solid var(--border2);
          border-radius:20px;background:transparent;color:var(--text2);cursor:pointer;transition:all .12s}
   .fbtn:hover{background:var(--bg2)}
   .fbtn.active{background:var(--text);color:var(--bg);border-color:var(--text)}
   .tbwrap{overflow-x:auto;border:0.5px solid var(--border);border-radius:var(--radius-lg);background:var(--bg)}
   table{border-collapse:collapse;width:max-content;min-width:100%}
-  thead tr:first-child th{font-size:9px;font-weight:500;color:var(--text3);text-transform:uppercase;
-    letter-spacing:.04em;padding:5px 7px 2px;background:var(--bg2);border-bottom:none;white-space:nowrap;text-align:center}
-  thead tr:last-child th{font-size:9px;font-weight:500;color:var(--text2);text-transform:uppercase;
-    padding:3px 7px 5px;background:var(--bg2);border-bottom:0.5px solid var(--border);white-space:nowrap}
+  thead tr:first-child th{font-size:8px;font-weight:600;color:var(--text3);text-transform:uppercase;
+    letter-spacing:.05em;padding:5px 6px 2px;background:var(--bg2);white-space:nowrap;text-align:center}
+  thead tr:last-child th{font-size:8px;font-weight:500;color:var(--text2);text-transform:uppercase;
+    padding:2px 6px 5px;background:var(--bg2);border-bottom:0.5px solid var(--border2);white-space:nowrap}
   th.sep,td.sep{border-left:1.5px solid var(--border2)}
-  td{padding:5px 7px;border-bottom:0.5px solid var(--border);vertical-align:middle;white-space:nowrap}
+  td{padding:4px 6px;border-bottom:0.5px solid var(--border);vertical-align:middle;white-space:nowrap}
   tr:last-child td{border-bottom:none}
   tr:hover td{background:var(--bg2)}
-  .tk{font-weight:500}.sec{font-size:9px;color:var(--text3);display:block;margin-top:1px}
-  .badge{display:inline-block;font-size:9px;font-weight:500;padding:1px 6px;border-radius:20px}
+  .tk{font-weight:500;font-size:12px}
+  .sec{font-size:8px;color:var(--text3);display:block;margin-top:1px}
+  .badge{display:inline-block;font-size:8px;font-weight:600;padding:1px 6px;border-radius:20px}
   .b-sat{background:#FCEBEB;color:#501313}.b-tut{background:#F1EFE8;color:#2C2C2A}
   .b-karal{background:#E1F5EE;color:#04342C}.b-haz{background:#E6F1FB;color:#042C53}
-  .b-al{background:#E1F5EE;color:#0F6E56}.b-yok{background:#F1EFE8;color:#888780}
+  .b-al{background:#E1F5EE;color:#0F6E56}.b-guc{background:#FFF3E0;color:#7B3F00}.b-izle{background:#EDF4FF;color:#1A3A5C}.b-yok{background:#F1EFE8;color:#888780}
   .pos{color:var(--pos)}.neg{color:var(--neg)}
-  .rsi-wrap{display:flex;align-items:center;gap:4px}
-  .rsi-bar{height:4px;border-radius:2px}
-  .sig-al{color:var(--pos);font-size:9px;font-weight:500}
+  .mini-bar{display:flex;align-items:center;gap:3px}
+  .bar{height:3px;border-radius:2px;min-width:2px}
+  .sig-al{color:var(--pos);font-size:9px;font-weight:600}
   .sig-izle{color:var(--info);font-size:9px;font-weight:500}
   .sig-bekle{color:var(--text3);font-size:9px}
   .tarih{display:inline-block;font-size:11px;background:var(--bg2);border:0.5px solid var(--border);
-          color:var(--text2);padding:3px 10px;border-radius:var(--radius);margin-bottom:1rem}
+          color:var(--text2);padding:3px 10px;border-radius:var(--radius);margin-bottom:.8rem}
   @media(prefers-color-scheme:dark){
     .b-sat{background:#501313;color:#F7C1C1}.b-tut{background:#2C2C2A;color:#D3D1C7}
     .b-karal{background:#04342C;color:#9FE1CB}.b-haz{background:#042C53;color:#B5D4F4}
-    .b-al{background:#04342C;color:#9FE1CB}
+    .b-al{background:#04342C;color:#9FE1CB}.b-guc{background:#3D2000;color:#FFB74D}.b-izle{background:#0D1F33;color:#90CAF9}
   }
 </style>
 </head>
 <body>
 <div class="page">
-  <header><h1>BIST Portföy Dashboard</h1><p>Portföy + Mavi Liste — 07.05.2026</p></header>
-  <div class="tarih">Veri: 07.05.2026 — yfinance</div>
+  <header>
+    <h1>BIST Portföy Dashboard</h1>
+    <p>Gelişmiş metrikler: StochRSI · ATR · OBV · ADX · Fibonacci — 08.05.2026</p>
+  </header>
+  <div class="tarih">Veri: 08.05.2026 — yfinance</div>
   <div class="metrics">
     <div class="mc"><div class="lbl">Portföy Değeri</div><div class="val" id="m-val">—</div><div class="sub">Güncel toplam</div></div>
     <div class="mc"><div class="lbl">Net K/Z</div><div class="val" id="m-kz">—</div><div class="sub">TL bazında</div></div>
     <div class="mc"><div class="lbl">K/Z %</div><div class="val" id="m-kzp">—</div><div class="sub">Ortalama</div></div>
-    <div class="mc"><div class="lbl">AL / İzle</div><div class="val" id="m-izle" style="color:var(--info)">—</div><div class="sub">Sinyal sayısı</div></div>
-    <div class="mc"><div class="lbl">Sat / Kar Al</div><div class="val" id="m-aksiyon" style="color:var(--neg)">—</div><div class="sub">Aksiyon gereken</div></div>
+    <div class="mc"><div class="lbl">AL / Güçlendir</div><div class="val" id="m-al" style="color:var(--pos)">—</div><div class="sub">Hisse sayısı</div></div>
+    <div class="mc"><div class="lbl">İzle</div><div class="val" id="m-izle" style="color:var(--info)">—</div><div class="sub">Hisse sayısı</div></div>
+    <div class="mc"><div class="lbl">Aksiyon</div><div class="val" id="m-aksiyon" style="color:var(--neg)">—</div><div class="sub">Sat / Kar Al</div></div>
   </div>
   <div class="filters">
     <label>Liste:</label>
@@ -86,38 +91,48 @@
     <label>Öneri:</label>
     <button class="fbtn active" onclick="setF('oneri','all',this)" data-g="oneri">Tümü</button>
     <button class="fbtn" onclick="setF('oneri','AL',this)" data-g="oneri">Al</button>
-    <button class="fbtn" onclick="setF('oneri','İZLE/HAZIRLAN',this)" data-g="oneri">İzle</button>
+    <button class="fbtn" onclick="setF('oneri','GÜÇLENDIR',this)" data-g="oneri">Güçlendir</button>
+    <button class="fbtn" onclick="setF('oneri','HAZIRLAN',this)" data-g="oneri">Hazırlan</button>
+    <button class="fbtn" onclick="setF('oneri','İZLE',this)" data-g="oneri">İzle</button>
     <button class="fbtn" onclick="setF('oneri','TUT',this)" data-g="oneri">Tut</button>
     <button class="fbtn" onclick="setF('oneri','KAR AL',this)" data-g="oneri">Kar Al</button>
     <button class="fbtn" onclick="setF('oneri','SAT',this)" data-g="oneri">Sat</button>
+
     <div class="div"></div>
-    <label>Sinyal:</label>
-    <button class="fbtn active" onclick="setF('sinyal','all',this)" data-g="sinyal">Tümü</button>
-    <button class="fbtn" onclick="setF('sinyal','AL',this)" data-g="sinyal">AL</button>
-    <button class="fbtn" onclick="setF('sinyal','İZLE',this)" data-g="sinyal">İZLE</button>
-    <button class="fbtn" onclick="setF('sinyal','BEKLE',this)" data-g="sinyal">BEKLE</button>
+    <label>ADX:</label>
+    <button class="fbtn active" onclick="setADX('all',this)" data-g="adx">Tümü</button>
+    <button class="fbtn" onclick="setADX('strong',this)" data-g="adx">Güçlü Trend (25+)</button>
+    <button class="fbtn" onclick="setADX('weak',this)" data-g="adx">Yatay (&lt;25)</button>
   </div>
   <div class="tbwrap"><table>
     <thead>
       <tr>
         <th colspan="2">HİSSE</th>
         <th colspan="4" class="sep">PORTFÖY</th>
-        <th colspan="4" class="sep">FİYAT & TEKNİK</th>
+        <th colspan="2" class="sep">FİYAT</th>
+        <th colspan="4" class="sep">MOMENTUMr</th>
+        <th colspan="4" class="sep">TREND (ADX)</th>
+        <th colspan="2" class="sep">VOLATİLİTE</th>
         <th colspan="3" class="sep">EMA</th>
-        <th colspan="4" class="sep">DİRENÇ / DESTEK</th>
         <th colspan="2" class="sep">BOLLINGER</th>
-        <th colspan="4" class="sep">ALARM SEVİYELERİ</th>
-        <th colspan="2" class="sep">SİNYAL</th>
+        <th colspan="3" class="sep">FİBONACCİ (60g)</th>
+        <th colspan="4" class="sep">DİRENÇ / DESTEK</th>
+        <th colspan="3" class="sep">ALARM</th>
+        <th colspan="1" class="sep">ÖNERİ</th>
       </tr>
       <tr>
         <th>Hisse</th><th>Liste</th>
         <th class="sep">Alış</th><th>Adet</th><th>K/Z TL</th><th>K/Z %</th>
-        <th class="sep">Fiyat</th><th>RSI</th><th>MACD</th><th>Vol/Ort</th>
+        <th class="sep">Fiyat</th><th>Vol/Ort</th>
+        <th class="sep">RSI</th><th>StochK</th><th>StochD</th><th>OBV</th>
+        <th class="sep">ADX</th><th>DI+</th><th>DI-</th><th>MACD</th>
+        <th class="sep">ATR</th><th>ATR%</th>
         <th class="sep">EMA20</th><th>EMA50</th><th>EMA200</th>
-        <th class="sep">Des(20g)</th><th>Dir(20g)</th><th>Des(1y)</th><th>Dir(1y)</th>
         <th class="sep">BB Alt</th><th>BB Üst</th>
-        <th class="sep">Alış Alm</th><th>Satış Alm</th><th>Stop</th><th>Kar Al</th>
-        <th class="sep">Sinyal</th><th>Öneri</th>
+        <th class="sep">%61.8</th><th>%50</th><th>%38.2</th>
+        <th class="sep">Des(20g)</th><th>Dir(20g)</th><th>Des(1y)</th><th>Dir(1y)</th>
+        <th class="sep">ATR Stop</th><th>Satış Alm</th><th>Kar Al</th>
+        <th class="sep">Öneri</th>
       </tr>
     </thead>
     <tbody id="tb"></tbody>
@@ -125,52 +140,80 @@
 </div>
 <script>
 const DATA=[
-  {t:"EKGYO",l:"Portföy",s:"gayrimenkul",alis:21.8,adet:5.0,kzTL:-2.4,kzPct:-2.2,toplam:106.6,f:21.32,rsi:50.9,macd:"✓",ema20:20.8,ema50:21.12,ema200:20.92,des20:19.54,dir20:22.34,des1y:11.54,dir1y:27.12,bbA:19.83,bbU:22.16,alA:19.93,saA:22.12,stop:20.25,ka:23.46,vol:0.34,o:"İZLE/HAZIRLAN",sig:"İZLE"},
-  {t:"AGHOL",l:"Portföy",s:"holding",alis:32.84,adet:7.0,kzTL:16.94,kzPct:7.37,toplam:246.82,f:35.26,rsi:72.0,macd:"✓",ema20:31.6,ema50:30.97,ema200:29.96,des20:28.5,dir20:34.62,des1y:23.88,dir1y:37.56,bbA:28.38,bbU:34.42,alA:29.07,saA:34.27,stop:33.5,ka:36.35,vol:0.53,o:"İZLE/HAZIRLAN",sig:"İZLE"},
-  {t:"GWIND",l:"Portföy",s:"enerji",alis:29.28,adet:31.0,kzTL:-6.82,kzPct:-0.75,toplam:900.86,f:29.06,rsi:57.9,macd:"✓",ema20:28.28,ema50:27.4,ema200:25.66,des20:25.64,dir20:33.62,des1y:20.06,dir1y:33.62,bbA:24.71,bbU:31.13,alA:26.15,saA:33.28,stop:27.61,ka:35.3,vol:0.55,o:"İZLE/HAZIRLAN",sig:"İZLE"},
-  {t:"SISE",l:"Portföy",s:"cam",alis:50.05,adet:12.0,kzTL:1.2,kzPct:0.2,toplam:601.8,f:50.15,rsi:56.6,macd:"✓",ema20:47.32,ema50:45.91,ema200:42.12,des20:45.54,dir20:52.6,des1y:31.94,dir1y:52.6,bbA:45.41,bbU:49.71,alA:46.45,saA:52.07,stop:47.64,ka:55.23,vol:0.47,o:"İZLE/HAZIRLAN",sig:"İZLE"},
-  {t:"TSKB",l:"Portföy",s:"banka",alis:12.3,adet:63.0,kzTL:5.67,kzPct:0.73,toplam:780.57,f:12.39,rsi:52.4,macd:"✗",ema20:11.98,ema50:12.01,ema200:12.2,des20:11.39,dir20:12.71,des1y:9.77,dir1y:14.05,bbA:11.54,bbU:12.7,alA:11.62,saA:12.58,stop:11.77,ka:13.35,vol:0.77,o:"TUT",sig:"BEKLE"},
-  {t:"CCOLA",l:"Portföy",s:"içecek",alis:77.7,adet:17.0,kzTL:129.2,kzPct:9.78,toplam:1450.1,f:85.3,rsi:71.0,macd:"✓",ema20:77.17,ema50:73.88,ema200:65.08,des20:68.3,dir20:86.9,des1y:45.14,dir1y:87.5,bbA:69.45,bbU:84.66,alA:69.67,saA:86.03,stop:81.04,ka:91.25,vol:1.24,o:"TUT",sig:"BEKLE"},
-  {t:"ISCTR",l:"Portföy",s:"banka",alis:14.07,adet:9.0,kzTL:5.85,kzPct:4.62,toplam:132.48,f:14.72,rsi:52.6,macd:"✗",ema20:14.28,ema50:14.24,ema200:13.88,des20:13.87,dir20:15.19,des1y:9.68,dir1y:17.46,bbA:13.81,bbU:15.13,alA:14.15,saA:15.04,stop:13.98,ka:15.95,vol:0.54,o:"TUT",sig:"BEKLE"},
-  {t:"ENJSA",l:"Portföy",s:"enerji",alis:118.0,adet:5.0,kzTL:5.0,kzPct:0.85,toplam:595.0,f:119.0,rsi:41.0,macd:"✗",ema20:119.64,ema50:114.34,ema200:96.08,des20:115.49,dir20:127.9,des1y:49.16,dir1y:127.9,bbA:114.71,bbU:127.59,alA:117.8,saA:126.62,stop:113.05,ka:134.3,vol:0.29,o:"TUT",sig:"BEKLE"},
-  {t:"TUPRS",l:"Portföy",s:"enerji",alis:252.5,adet:2.0,kzTL:17.0,kzPct:3.37,toplam:522.0,f:261.0,rsi:49.8,macd:"✗",ema20:263.99,ema50:251.19,ema200:213.73,des20:240.2,dir20:279.5,des1y:108.35,dir1y:279.5,bbA:248.18,bbU:279.67,alA:245.0,saA:276.7,stop:247.95,ka:293.48,vol:0.43,o:"TUT",sig:"BEKLE"},
-  {t:"SELEC",l:"Portföy",s:"sağlık",alis:90.15,adet:1.0,kzTL:13.55,kzPct:15.03,toplam:103.7,f:103.7,rsi:80.1,macd:"✓",ema20:95.31,ema50:89.08,ema200:83.23,des20:80.6,dir20:106.8,des1y:61.69,dir1y:106.97,bbA:79.18,bbU:108.31,alA:82.21,saA:105.73,stop:98.51,ka:112.14,vol:0.08,o:"KAR AL",sig:"BEKLE"},
-  {t:"ANSGR",l:"Portföy",s:"sigorta",alis:29.94,adet:20.0,kzTL:10.4,kzPct:1.74,toplam:609.2,f:30.46,rsi:72.5,macd:"✓",ema20:28.65,ema50:27.28,ema200:24.62,des20:26.24,dir20:31.52,des1y:18.56,dir1y:31.52,bbA:26.24,bbU:30.78,alA:26.76,saA:31.2,stop:28.94,ka:33.1,vol:0.54,o:"TUT",sig:"BEKLE"},
-  {t:"TABGD",l:"Mavi",s:"gıda",alis:null,adet:null,kzTL:null,kzPct:null,toplam:null,f:272.75,rsi:66.1,macd:"✓",ema20:262.03,ema50:256.76,ema200:241.41,des20:239.9,dir20:270.75,des1y:157.2,dir1y:284.25,bbA:246.29,bbU:275.91,alA:244.7,saA:268.04,stop:259.11,ka:284.29,vol:0.22,o:"İZLE/HAZIRLAN",sig:"İZLE"},
-  {t:"MGROS",l:"Mavi",s:"perakende",alis:null,adet:null,kzTL:null,kzPct:null,toplam:null,f:687.0,rsi:60.3,macd:"✓",ema20:646.1,ema50:632.15,ema200:579.51,des20:616.0,dir20:687.5,des1y:412.49,dir1y:698.5,bbA:613.14,bbU:686.46,alA:628.32,saA:680.62,stop:652.65,ka:721.88,vol:0.31,o:"İZLE/HAZIRLAN",sig:"İZLE"},
-  {t:"AKSEN",l:"Mavi",s:"enerji",alis:null,adet:null,kzTL:null,kzPct:null,toplam:null,f:88.75,rsi:68.6,macd:"✓",ema20:83.02,ema50:78.59,ema200:65.39,des20:78.55,dir20:89.75,des1y:30.16,dir1y:89.75,bbA:77.17,bbU:88.55,alA:80.12,saA:88.85,stop:84.31,ka:94.24,vol:0.5,o:"İZLE/HAZIRLAN",sig:"İZLE"},
-  {t:"TRGYO",l:"Mavi",s:"gayrimenkul",alis:null,adet:null,kzTL:null,kzPct:null,toplam:null,f:105.1,rsi:97.2,macd:"✓",ema20:95.65,ema50:90.38,ema200:81.61,des20:87.6,dir20:102.3,des1y:55.8,dir1y:105.3,bbA:85.46,bbU:103.93,alA:89.35,saA:101.28,stop:99.84,ka:107.42,vol:0.73,o:"İZLE/HAZIRLAN",sig:"İZLE"},
-  {t:"TCELL",l:"Mavi",s:"telekom",alis:null,adet:null,kzTL:null,kzPct:null,toplam:null,f:119.5,rsi:54.5,macd:"✓",ema20:114.45,ema50:112.8,ema200:105.97,des20:108.9,dir20:121.3,des1y:83.74,dir1y:129.6,bbA:110.21,bbU:120.71,alA:111.08,saA:120.09,stop:113.52,ka:127.37,vol:0.59,o:"İZLE/HAZIRLAN",sig:"İZLE"},
-  {t:"GESAN",l:"Mavi",s:"elektrik",alis:null,adet:null,kzTL:null,kzPct:null,toplam:null,f:57.55,rsi:78.7,macd:"✓",ema20:50.32,ema50:48.98,ema200:47.95,des20:45.92,dir20:56.9,des1y:38.0,dir1y:61.55,bbA:43.49,bbU:56.07,alA:46.84,saA:56.33,stop:54.67,ka:59.75,vol:0.8,o:"İZLE/HAZIRLAN",sig:"İZLE"},
-  {t:"TKFEN",l:"Mavi",s:"inşaat",alis:null,adet:null,kzTL:null,kzPct:null,toplam:null,f:149.1,rsi:74.1,macd:"✓",ema20:128.99,ema50:110.43,ema200:93.0,des20:96.45,dir20:145.5,des1y:66.69,dir1y:150.0,bbA:101.1,bbU:155.82,alA:98.38,saA:144.04,stop:141.65,ka:152.78,vol:0.44,o:"İZLE/HAZIRLAN",sig:"İZLE"},
-  {t:"ATATP",l:"Mavi",s:"teknoloji",alis:null,adet:null,kzTL:null,kzPct:null,toplam:null,f:159.0,rsi:65.2,macd:"✓",ema20:149.33,ema50:148.37,ema200:142.61,des20:136.5,dir20:167.5,des1y:71.7,dir1y:190.8,bbA:133.56,bbU:160.58,alA:139.23,saA:165.82,stop:151.05,ka:175.88,vol:0.48,o:"İZLE/HAZIRLAN",sig:"İZLE"},
-  {t:"EDATA",l:"Mavi",s:"teknoloji",alis:null,adet:null,kzTL:null,kzPct:null,toplam:null,f:23.58,rsi:55.0,macd:"✓",ema20:20.62,ema50:17.6,ema200:11.38,des20:16.22,dir20:24.84,des1y:3.81,dir1y:24.84,bbA:17.21,bbU:24.81,alA:16.54,saA:24.59,stop:22.4,ka:26.08,vol:0.41,o:"İZLE/HAZIRLAN",sig:"İZLE"},
-  {t:"CWENE",l:"Mavi",s:"enerji",alis:null,adet:null,kzTL:null,kzPct:null,toplam:null,f:38.08,rsi:65.0,macd:"✓",ema20:35.11,ema50:32.9,ema200:28.18,des20:30.36,dir20:39.38,des1y:12.34,dir1y:39.8,bbA:31.57,bbU:38.71,alA:30.97,saA:38.99,stop:36.18,ka:41.35,vol:0.38,o:"İZLE/HAZIRLAN",sig:"İZLE"},
-  {t:"KCHOL",l:"Mavi",s:"holding",alis:null,adet:null,kzTL:null,kzPct:null,toplam:null,f:210.3,rsi:52.9,macd:"✗",ema20:203.16,ema50:198.21,ema200:183.73,des20:196.7,dir20:213.9,des1y:129.94,dir1y:220.84,bbA:197.45,bbU:212.29,alA:200.63,saA:211.76,stop:199.79,ka:224.59,vol:0.37,o:"TUT",sig:"BEKLE"},
-  {t:"LOGO",l:"Mavi",s:"teknoloji",alis:null,adet:null,kzTL:null,kzPct:null,toplam:null,f:153.8,rsi:71.7,macd:"✓",ema20:143.81,ema50:143.06,ema200:151.4,des20:134.4,dir20:157.0,des1y:128.79,dir1y:194.9,bbA:130.58,bbU:154.03,alA:137.09,saA:155.43,stop:146.11,ka:164.85,vol:0.48,o:"TUT",sig:"BEKLE"},
-  {t:"OYAKC",l:"Mavi",s:"çimento",alis:null,adet:null,kzTL:null,kzPct:null,toplam:null,f:24.96,rsi:44.1,macd:"✗",ema20:24.39,ema50:24.43,ema200:23.78,des20:23.2,dir20:26.36,des1y:18.62,dir1y:28.56,bbA:23.35,bbU:26.13,alA:23.66,saA:26.1,stop:23.71,ka:27.68,vol:0.76,o:"TUT",sig:"BEKLE"},
-  {t:"ASTOR",l:"Mavi",s:"enerji",alis:null,adet:null,kzTL:null,kzPct:null,toplam:null,f:305.5,rsi:85.8,macd:"✓",ema20:249.47,ema50:216.01,ema200:160.76,des20:189.4,dir20:319.5,des1y:80.6,dir1y:323.0,bbA:150.93,bbU:320.25,alA:193.19,saA:316.31,stop:290.22,ka:335.48,vol:0.48,o:"KAR AL",sig:"BEKLE"},
-  {t:"AKBNK",l:"Mavi",s:"banka",alis:null,adet:null,kzTL:null,kzPct:null,toplam:null,f:75.25,rsi:42.3,macd:"✗",ema20:75.05,ema50:75.15,ema200:71.07,des20:70.2,dir20:83.85,des1y:47.19,dir1y:90.6,bbA:70.1,bbU:83.61,alA:71.6,saA:83.01,stop:71.49,ka:88.04,vol:0.6,o:"TUT",sig:"BEKLE"},
-  {t:"GARAN",l:"Mavi",s:"banka",alis:null,adet:null,kzTL:null,kzPct:null,toplam:null,f:137.5,rsi:48.3,macd:"✗",ema20:135.19,ema50:135.92,ema200:135.59,des20:128.3,dir20:147.7,des1y:94.91,dir1y:163.11,bbA:129.06,bbU:145.9,alA:130.87,saA:146.22,stop:130.62,ka:155.08,vol:0.72,o:"TUT",sig:"BEKLE"},
-  {t:"THYAO",l:"Mavi",s:"havacılık",alis:null,adet:null,kzTL:null,kzPct:null,toplam:null,f:313.25,rsi:44.8,macd:"✗",ema20:312.09,ema50:308.0,ema200:300.15,des20:298.25,dir20:335.0,des1y:246.66,dir1y:352.5,bbA:301.45,bbU:333.9,alA:304.22,saA:331.65,stop:297.59,ka:351.75,vol:0.48,o:"TUT",sig:"BEKLE"},
-  {t:"FROTO",l:"Mavi",s:"otomotiv",alis:null,adet:null,kzTL:null,kzPct:null,toplam:null,f:99.25,rsi:35.0,macd:"✗",ema20:101.32,ema50:103.33,ema200:99.36,des20:95.65,dir20:109.3,des1y:71.54,dir1y:130.91,bbA:94.98,bbU:110.04,alA:97.56,saA:108.21,stop:94.29,ka:114.77,vol:0.61,o:"TUT",sig:"BEKLE"},
-  {t:"EREGL",l:"Mavi",s:"çelik",alis:null,adet:null,kzTL:null,kzPct:null,toplam:null,f:38.58,rsi:79.2,macd:"✓",ema20:33.81,ema50:31.4,ema200:28.53,des20:29.58,dir20:38.64,des1y:21.77,dir1y:39.02,bbA:28.37,bbU:38.27,alA:30.17,saA:38.25,stop:36.65,ka:40.57,vol:0.4,o:"KAR AL",sig:"BEKLE"},
-  {t:"ASELS",l:"Mavi",s:"savunma",alis:null,adet:null,kzTL:null,kzPct:null,toplam:null,f:426.5,rsi:54.8,macd:"✗",ema20:405.17,ema50:369.12,ema200:287.38,des20:338.0,dir20:450.0,des1y:126.74,dir1y:450.0,bbA:373.25,bbU:446.15,alA:344.76,saA:445.5,stop:405.17,ka:472.5,vol:0.28,o:"TUT",sig:"BEKLE"},
-  {t:"SAHOL",l:"Mavi",s:"holding",alis:null,adet:null,kzTL:null,kzPct:null,toplam:null,f:100.6,rsi:50.0,macd:"✗",ema20:97.45,ema50:96.27,ema200:91.9,des20:93.45,dir20:105.8,des1y:70.57,dir1y:113.18,bbA:93.26,bbU:104.64,alA:95.32,saA:104.74,stop:95.57,ka:111.09,vol:0.25,o:"TUT",sig:"BEKLE"},
-  {t:"ESCOM",l:"Mavi",s:"teknoloji",alis:null,adet:null,kzTL:null,kzPct:null,toplam:null,f:5.79,rsi:70.3,macd:"✓",ema20:5.25,ema50:4.92,ema200:4.14,des20:4.24,dir20:6.31,des1y:2.41,dir1y:6.93,bbA:3.76,bbU:6.25,alA:4.32,saA:6.25,stop:5.5,ka:6.63,vol:0.23,o:"TUT",sig:"BEKLE"},
-  {t:"EUPWR",l:"Mavi",s:"enerji",alis:null,adet:null,kzTL:null,kzPct:null,toplam:null,f:61.4,rsi:92.0,macd:"✓",ema20:48.72,ema50:43.37,ema200:36.62,des20:38.76,dir20:62.8,des1y:23.3,dir1y:62.9,bbA:32.21,bbU:61.34,alA:39.54,saA:62.17,stop:58.33,ka:65.94,vol:0.43,o:"KAR AL",sig:"BEKLE"},
-  {t:"XU100",l:"Benchmark",s:"endeks",alis:null,adet:null,kzTL:null,kzPct:null,toplam:null,f:14956.49,rsi:67.4,macd:"✓",ema20:14275.55,ema50:13771.42,ema200:12520.29,des20:13333.7,dir20:15043.6,des1y:8964.95,dir1y:15043.6,bbA:13655.79,bbU:15006.51,alA:13600.37,saA:14893.16,stop:14208.67,ka:15795.78,vol:null,o:"—",sig:"—"}
+  {t:"AGHOL",l:"Portföy",s:"holding",alis:32.84,adet:7.0,kzTL:9.38,kzPct:4.08,toplam:239.26,f:34.18,rsi:69.3,sk:44.3,sd:31.1,macd:"✓",obv:"✓",adx:54.1,dip:36.0,dim:12.8,atr:1.07,atrp:3.14,vol:1.58,ema20:31.22,ema50:30.8,ema200:29.9,bbU:33.93,bbA:28.1,f618:33.47,f500:32.21,f382:30.95,des20:27.36,dir20:33.82,des1y:23.88,dir1y:37.56,atrStop:32.03,saA:33.48,ka:35.51,o:"GÜÇLENDIR",sig:"AL"},
+  {t:"SISE",l:"Portföy",s:"cam",alis:50.05,adet:12.0,kzTL:-5.16,kzPct:-0.86,toplam:595.44,f:49.62,rsi:55.4,sk:21.8,sd:19.6,macd:"✓",obv:"✓",adx:25.9,dip:26.3,dim:14.6,atr:1.82,atrp:3.67,vol:3.2,ema20:47.03,ema50:45.73,ema200:42.04,bbU:49.65,bbA:44.84,f618:47.37,f500:45.75,f382:44.13,des20:43.52,dir20:49.14,des1y:31.94,dir1y:52.6,atrStop:45.98,saA:48.65,ka:51.6,o:"GÜÇLENDIR",sig:"AL"},
+  {t:"TSKB",l:"Portföy",s:"banka",alis:12.3,adet:63.0,kzTL:-22.05,kzPct:-2.85,toplam:752.85,f:11.95,rsi:43.7,sk:9.7,sd:4.0,macd:"✗",obv:"✓",adx:42.6,dip:17.7,dim:24.9,atr:0.31,atrp:2.59,vol:1.92,ema20:11.94,ema50:11.99,ema200:12.2,bbU:12.73,bbA:11.41,f618:12.6,f500:12.22,f382:11.83,des20:11.26,dir20:12.71,des1y:9.77,dir1y:14.05,atrStop:11.33,saA:12.58,ka:13.35,o:"HAZIRLAN",sig:"İZLE"},
+  {t:"CCOLA",l:"Portföy",s:"içecek",alis:77.7,adet:17.0,kzTL:121.55,kzPct:9.2,toplam:1442.45,f:84.85,rsi:71.8,sk:30.6,sd:26.9,macd:"✓",obv:"✓",adx:42.2,dip:34.6,dim:16.9,atr:3.4,atrp:4.01,vol:3.13,ema20:76.31,ema50:73.41,ema200:64.86,bbU:83.96,bbA:68.31,f618:78.52,f500:75.92,f382:73.33,des20:66.75,dir20:82.35,des1y:45.14,dir1y:86.9,atrStop:78.05,saA:81.53,ka:86.47,o:"GÜÇLENDIR",sig:"İZLE"},
+  {t:"ISCTR",l:"Portföy",s:"banka",alis:14.07,adet:9.0,kzTL:3.78,kzPct:2.99,toplam:130.41,f:14.49,rsi:49.0,sk:7.8,sd:3.1,macd:"✗",obv:"✗",adx:36.9,dip:20.2,dim:18.6,atr:0.43,atrp:2.97,vol:0.18,ema20:14.23,ema50:14.22,ema200:13.87,bbU:15.27,bbA:13.5,f618:15.52,f500:14.92,f382:14.32,des20:13.04,dir20:15.19,des1y:9.68,dir1y:17.46,atrStop:13.63,saA:15.04,ka:15.95,o:"HAZIRLAN",sig:"İZLE"},
+  {t:"EKGYO",l:"Portföy",s:"gayrimenkul",alis:21.8,adet:5.0,kzTL:-2.9,kzPct:-2.66,toplam:106.1,f:21.22,rsi:50.5,sk:20.6,sd:12.4,macd:"✗",obv:"✓",adx:38.2,dip:18.9,dim:19.4,atr:0.79,atrp:3.74,vol:1.5,ema20:20.75,ema50:21.11,ema200:20.92,bbU:22.28,bbA:19.51,f618:23.96,f500:22.99,f382:22.02,des20:19.12,dir20:22.34,des1y:11.54,dir1y:27.12,atrStop:19.63,saA:22.12,ka:23.46,o:"HAZIRLAN",sig:"İZLE"},
+  {t:"GWIND",l:"Portföy",s:"enerji",alis:29.28,adet:31.0,kzTL:-24.18,kzPct:-2.66,toplam:883.5,f:28.5,rsi:56.0,sk:81.1,sd:86.3,macd:"✓",obv:"✓",adx:41.5,dip:37.2,dim:17.9,atr:1.42,atrp:4.98,vol:1.48,ema20:28.2,ema50:27.33,ema200:25.62,bbU:31.07,bbA:24.71,f618:29.68,f500:28.46,f382:27.24,des20:25.64,dir20:33.62,des1y:20.06,dir1y:33.62,atrStop:25.66,saA:33.28,ka:35.3,o:"GÜÇLENDIR",sig:"İZLE"},
+  {t:"ENJSA",l:"Portföy",s:"enerji",alis:118.0,adet:5.0,kzTL:-2.5,kzPct:-0.42,toplam:587.5,f:117.5,rsi:40.7,sk:3.7,sd:11.5,macd:"✗",obv:"✓",adx:32.6,dip:17.7,dim:28.7,atr:4.49,atrp:3.82,vol:1.32,ema20:119.71,ema50:114.15,ema200:95.83,bbU:128.1,bbA:113.68,f618:114.48,f500:110.33,f382:106.18,des20:113.19,dir20:127.9,des1y:49.16,dir1y:127.9,atrStop:108.53,saA:126.62,ka:134.3,o:"TUT",sig:"BEKLE"},
+  {t:"TUPRS",l:"Portföy",s:"enerji",alis:252.5,adet:2.0,kzTL:37.0,kzPct:7.33,toplam:542.0,f:271.0,rsi:52.6,sk:37.3,sd:49.9,macd:"✗",obv:"✓",adx:23.3,dip:15.7,dim:18.6,atr:9.41,atrp:3.47,vol:1.14,ema20:264.31,ema50:250.78,ema200:213.21,bbU:279.67,bbA:248.08,f618:250.71,f500:241.81,f382:232.92,des20:240.2,dir20:279.5,des1y:108.35,dir1y:279.5,atrStop:252.18,saA:276.7,ka:293.48,o:"TUT",sig:"BEKLE"},
+  {t:"SELEC",l:"Portföy",s:"sağlık",alis:90.15,adet:1.0,kzTL:14.15,kzPct:15.7,toplam:104.3,f:104.3,rsi:83.2,sk:74.0,sd:85.4,macd:"✓",obv:"✓",adx:55.0,dip:33.1,dim:3.0,atr:4.15,atrp:3.98,vol:0.86,ema20:94.43,ema50:88.48,ema200:83.01,bbU:107.52,bbA:77.63,f618:94.57,f500:90.79,f382:87.01,des20:79.86,dir20:106.8,des1y:61.69,dir1y:106.97,atrStop:96.0,saA:105.73,ka:112.14,o:"KAR AL",sig:"BEKLE"},
+  {t:"ANSGR",l:"Portföy",s:"sigorta",alis:29.94,adet:20.0,kzTL:6.0,kzPct:1.0,toplam:604.8,f:30.24,rsi:72.4,sk:19.7,sd:41.0,macd:"✓",obv:"✓",adx:58.5,dip:37.3,dim:9.4,atr:0.96,atrp:3.18,vol:0.85,ema20:28.45,ema50:27.15,ema200:24.56,bbU:30.62,bbA:25.94,f618:28.32,f500:27.33,f382:26.34,des20:25.32,dir20:31.52,des1y:18.56,dir1y:31.52,atrStop:28.32,saA:31.2,ka:33.1,o:"TUT",sig:"BEKLE"},
+  {t:"MGROS",l:"Mavi",s:"perakende",alis:null,adet:null,kzTL:null,kzPct:null,toplam:null,f:683.5,rsi:61.3,sk:26.3,sd:12.0,macd:"✓",obv:"✓",adx:31.6,dip:33.8,dim:20.5,atr:18.46,atrp:2.7,vol:2.03,ema20:641.8,ema50:629.91,ema200:578.33,bbU:684.12,bbA:606.78,f618:644.83,f500:628.25,f382:611.67,des20:593.0,dir20:674.5,des1y:412.49,dir1y:698.5,atrStop:646.57,saA:667.75,ka:708.23,o:"AL",sig:"AL"},
+  {t:"TABGD",l:"Mavi",s:"gıda",alis:null,adet:null,kzTL:null,kzPct:null,toplam:null,f:275.5,rsi:68.0,sk:29.8,sd:27.7,macd:"✓",obv:"✓",adx:30.9,dip:19.0,dim:11.9,atr:7.62,atrp:2.77,vol:0.62,ema20:262.29,ema50:256.87,ema200:241.44,bbU:276.54,bbA:245.93,f618:265.09,f500:259.18,f382:253.26,des20:239.9,dir20:270.75,des1y:157.2,dir1y:284.25,atrStop:260.25,saA:268.04,ka:284.29,o:"İZLE",sig:"İZLE"},
+  {t:"KCHOL",l:"Mavi",s:"holding",alis:null,adet:null,kzTL:null,kzPct:null,toplam:null,f:210.5,rsi:54.8,sk:21.7,sd:12.0,macd:"✗",obv:"✓",adx:26.0,dip:15.7,dim:20.4,atr:6.0,atrp:2.85,vol:1.59,ema20:202.41,ema50:197.72,ema200:183.44,bbU:213.37,bbA:194.35,f618:202.54,f500:196.89,f382:191.24,des20:189.5,dir20:212.0,des1y:129.94,dir1y:220.84,atrStop:198.5,saA:209.88,ka:222.6,o:"İZLE",sig:"İZLE"},
+  {t:"LOGO",l:"Mavi",s:"teknoloji",alis:null,adet:null,kzTL:null,kzPct:null,toplam:null,f:155.0,rsi:74.8,sk:79.3,sd:59.3,macd:"✓",obv:"✓",adx:58.2,dip:37.8,dim:7.3,atr:4.38,atrp:2.82,vol:1.41,ema20:142.76,ema50:142.63,ema200:151.37,bbU:152.48,bbA:129.95,f618:151.5,f500:147.2,f382:142.9,des20:131.8,dir20:154.3,des1y:128.79,dir1y:194.9,atrStop:146.24,saA:152.76,ka:162.02,o:"İZLE",sig:"İZLE"},
+  {t:"OYAKC",l:"Mavi",s:"çimento",alis:null,adet:null,kzTL:null,kzPct:null,toplam:null,f:24.54,rsi:37.0,sk:19.2,sd:9.5,macd:"✗",obv:"✓",adx:29.6,dip:19.5,dim:23.6,atr:0.73,atrp:2.99,vol:1.54,ema20:24.33,ema50:24.4,ema200:23.77,bbU:26.16,bbA:23.18,f618:26.25,f500:25.54,f382:24.83,des20:23.2,dir20:26.36,des1y:18.62,dir1y:28.56,atrStop:23.07,saA:26.1,ka:27.68,o:"İZLE",sig:"İZLE"},
+  {t:"AKSEN",l:"Mavi",s:"enerji",alis:null,adet:null,kzTL:null,kzPct:null,toplam:null,f:88.6,rsi:62.8,sk:51.8,sd:38.3,macd:"✓",obv:"✓",adx:21.2,dip:25.7,dim:15.1,atr:2.75,atrp:3.1,vol:1.16,ema20:82.42,ema50:78.17,ema200:65.14,bbU:87.56,bbA:77.23,f618:79.44,f500:76.25,f382:73.06,des20:78.45,dir20:88.25,des1y:30.16,dir1y:89.75,atrStop:83.11,saA:87.37,ka:92.66,o:"İZLE",sig:"İZLE"},
+  {t:"TRGYO",l:"Mavi",s:"gayrimenkul",alis:null,adet:null,kzTL:null,kzPct:null,toplam:null,f:101.4,rsi:96.0,sk:99.9,sd:99.9,macd:"✓",obv:"✓",adx:64.9,dip:41.3,dim:1.0,atr:2.1,atrp:2.07,vol:2.21,ema20:94.66,ema50:89.78,ema200:81.36,bbU:102.06,bbA:85.71,f618:92.25,f500:89.15,f382:86.05,des20:87.35,dir20:99.85,des1y:55.8,dir1y:102.3,atrStop:97.2,saA:98.85,ka:104.84,o:"İZLE",sig:"İZLE"},
+  {t:"ASTOR",l:"Mavi",s:"enerji",alis:null,adet:null,kzTL:null,kzPct:null,toplam:null,f:317.75,rsi:87.9,sk:100.0,sd:100.0,macd:"✓",obv:"✓",adx:37.3,dip:58.3,dim:5.3,atr:15.64,atrp:4.92,vol:0.9,ema20:243.57,ema50:212.36,ema200:159.18,bbU:309.49,bbA:151.61,f618:255.86,f500:236.2,f382:216.54,des20:189.4,dir20:303.75,des1y:80.6,dir1y:319.5,atrStop:286.48,saA:300.71,ka:318.94,o:"İZLE",sig:"İZLE"},
+  {t:"TCELL",l:"Mavi",s:"telekom",alis:null,adet:null,kzTL:null,kzPct:null,toplam:null,f:117.7,rsi:52.8,sk:23.9,sd:11.5,macd:"✗",obv:"✓",adx:25.4,dip:27.8,dim:22.4,atr:3.34,atrp:2.84,vol:1.39,ema20:113.92,ema50:112.52,ema200:105.82,bbU:121.47,bbA:107.99,f618:119.25,f500:116.05,f382:112.85,des20:104.5,dir20:121.3,des1y:83.74,dir1y:129.6,atrStop:111.01,saA:120.09,ka:127.37,o:"İZLE",sig:"İZLE"},
+  {t:"AKBNK",l:"Mavi",s:"banka",alis:null,adet:null,kzTL:null,kzPct:null,toplam:null,f:74.35,rsi:41.2,sk:6.8,sd:2.6,macd:"✗",obv:"✗",adx:46.4,dip:22.4,dim:29.1,atr:2.73,atrp:3.67,vol:2.18,ema20:75.03,ema50:75.14,ema200:71.02,bbU:84.09,bbA:69.02,f618:80.84,f500:77.82,f382:74.81,des20:68.5,dir20:83.85,des1y:47.19,dir1y:90.6,atrStop:68.9,saA:83.01,ka:88.04,o:"İZLE",sig:"İZLE"},
+  {t:"GARAN",l:"Mavi",s:"banka",alis:null,adet:null,kzTL:null,kzPct:null,toplam:null,f:136.6,rsi:45.6,sk:9.4,sd:5.3,macd:"✗",obv:"✗",adx:38.8,dip:21.7,dim:25.9,atr:4.59,atrp:3.36,vol:2.35,ema20:134.95,ema50:135.85,ema200:135.57,bbU:146.58,bbA:127.34,f618:143.62,f500:139.08,f382:134.54,des20:126.8,dir20:147.7,des1y:94.91,dir1y:163.11,atrStop:127.43,saA:146.22,ka:155.08,o:"İZLE",sig:"İZLE"},
+  {t:"THYAO",l:"Mavi",s:"havacılık",alis:null,adet:null,kzTL:null,kzPct:null,toplam:null,f:309.75,rsi:37.9,sk:7.7,sd:3.6,macd:"✗",obv:"✓",adx:29.9,dip:22.3,dim:26.8,atr:9.05,atrp:2.92,vol:1.88,ema20:311.97,ema50:307.78,ema200:300.01,bbU:336.44,bbA:296.78,f618:318.5,f500:308.0,f382:297.5,des20:291.75,dir20:335.0,des1y:246.66,dir1y:352.5,atrStop:291.64,saA:331.65,ka:351.75,o:"İZLE",sig:"İZLE"},
+  {t:"ASELS",l:"Mavi",s:"savunma",alis:null,adet:null,kzTL:null,kzPct:null,toplam:null,f:434.0,rsi:61.3,sk:5.3,sd:6.7,macd:"✓",obv:"✓",adx:63.6,dip:28.0,dim:10.4,atr:15.77,atrp:3.63,vol:1.01,ema20:402.92,ema50:366.78,ema200:285.86,bbU:451.94,bbA:359.01,f618:387.83,f500:368.62,f382:349.42,des20:337.0,dir20:443.5,des1y:126.74,dir1y:450.0,atrStop:402.46,saA:439.06,ka:465.68,o:"İZLE",sig:"İZLE"},
+  {t:"SAHOL",l:"Mavi",s:"holding",alis:null,adet:null,kzTL:null,kzPct:null,toplam:null,f:100.7,rsi:50.4,sk:21.2,sd:9.4,macd:"✗",obv:"✗",adx:42.3,dip:24.4,dim:22.8,atr:3.18,atrp:3.15,vol:1.31,ema20:97.12,ema50:96.09,ema200:91.81,bbU:105.46,bbA:91.31,f618:102.32,f500:98.96,f382:95.6,des20:88.8,dir20:105.8,des1y:70.57,dir1y:113.18,atrStop:94.35,saA:104.74,ka:111.09,o:"İZLE",sig:"İZLE"},
+  {t:"GESAN",l:"Mavi",s:"elektrik",alis:null,adet:null,kzTL:null,kzPct:null,toplam:null,f:56.5,rsi:66.7,sk:63.4,sd:39.9,macd:"✓",obv:"✓",adx:16.7,dip:40.8,dim:20.1,atr:2.37,atrp:4.19,vol:1.78,ema20:49.56,ema50:48.63,ema200:47.85,bbU:54.5,bbA:43.97,f618:54.14,f500:51.84,f382:49.55,des20:45.92,dir20:54.8,des1y:38.0,dir1y:61.55,atrStop:51.77,saA:54.25,ka:57.54,o:"İZLE",sig:"İZLE"},
+  {t:"EDATA",l:"Mavi",s:"teknoloji",alis:null,adet:null,kzTL:null,kzPct:null,toplam:null,f:23.16,rsi:53.7,sk:9.0,sd:10.9,macd:"✓",obv:"✓",adx:36.7,dip:29.7,dim:19.6,atr:2.22,atrp:9.57,vol:1.82,ema20:20.3,ema50:17.36,ema200:11.24,bbU:24.58,bbA:16.85,f618:19.13,f500:17.37,f382:15.61,des20:16.22,dir20:24.8,des1y:3.81,dir1y:24.84,atrStop:18.73,saA:24.55,ka:26.04,o:"İZLE",sig:"İZLE"},
+  {t:"CWENE",l:"Mavi",s:"enerji",alis:null,adet:null,kzTL:null,kzPct:null,toplam:null,f:37.8,rsi:63.6,sk:12.8,sd:10.7,macd:"✓",obv:"✓",adx:50.8,dip:33.0,dim:13.5,atr:1.94,atrp:5.14,vol:0.66,ema20:35.08,ema50:32.89,ema200:28.18,bbU:38.65,bbA:31.6,f618:35.14,f500:33.7,f382:32.26,des20:30.36,dir20:39.38,des1y:12.34,dir1y:39.8,atrStop:33.91,saA:38.99,ka:41.35,o:"İZLE",sig:"İZLE"},
+  {t:"FROTO",l:"Mavi",s:"otomotiv",alis:null,adet:null,kzTL:null,kzPct:null,toplam:null,f:99.0,rsi:36.2,sk:10.0,sd:7.2,macd:"✗",obv:"✓",adx:17.4,dip:9.7,dim:29.5,atr:3.21,atrp:3.24,vol:2.02,ema20:101.54,ema50:103.5,ema200:99.36,bbU:110.23,bbA:94.54,f618:117.44,f500:113.28,f382:109.12,des20:95.65,dir20:109.3,des1y:71.54,dir1y:130.91,atrStop:92.58,saA:108.21,ka:114.77,o:"İZLE",sig:"BEKLE"},
+  {t:"EREGL",l:"Mavi",s:"çelik",alis:null,adet:null,kzTL:null,kzPct:null,toplam:null,f:37.68,rsi:77.8,sk:89.8,sd:85.8,macd:"✓",obv:"✓",adx:54.9,dip:39.4,dim:10.4,atr:1.49,atrp:3.95,vol:1.44,ema20:33.31,ema50:31.11,ema200:28.43,bbU:37.51,bbA:28.15,f618:34.11,f500:32.71,f382:31.31,des20:28.84,dir20:37.96,des1y:21.77,dir1y:38.64,atrStop:34.7,saA:37.58,ka:39.86,o:"KAR AL",sig:"BEKLE"},
+  {t:"TKFEN",l:"Mavi",s:"inşaat",alis:null,adet:null,kzTL:null,kzPct:null,toplam:null,f:142.0,rsi:70.9,sk:14.2,sd:30.6,macd:"✓",obv:"✓",adx:69.5,dip:30.6,dim:12.8,atr:7.44,atrp:5.24,vol:0.93,ema20:126.87,ema50:108.85,ema200:92.39,bbU:155.13,bbA:96.39,f618:115.51,f500:106.25,f382:96.99,des20:95.1,dir20:145.5,des1y:66.69,dir1y:145.5,atrStop:127.13,saA:144.04,ka:152.78,o:"İZLE",sig:"BEKLE"},
+  {t:"ATATP",l:"Mavi",s:"teknoloji",alis:null,adet:null,kzTL:null,kzPct:null,toplam:null,f:159.5,rsi:66.9,sk:94.4,sd:90.9,macd:"✓",obv:"✓",adx:23.1,dip:35.0,dim:7.5,atr:5.82,atrp:3.65,vol:1.39,ema20:148.31,ema50:147.93,ema200:142.43,bbU:159.27,bbA:132.4,f618:168.45,f500:161.55,f382:154.65,des20:134.3,dir20:167.5,des1y:71.7,dir1y:190.8,atrStop:147.86,saA:165.82,ka:175.88,o:"KAR AL",sig:"BEKLE"},
+  {t:"ESCOM",l:"Mavi",s:"teknoloji",alis:null,adet:null,kzTL:null,kzPct:null,toplam:null,f:5.82,rsi:71.3,sk:89.4,sd:90.4,macd:"✓",obv:"✗",adx:62.4,dip:40.8,dim:1.2,atr:0.4,atrp:6.92,vol:0.68,ema20:5.19,ema50:4.88,ema200:4.12,bbU:6.16,bbA:3.7,f618:5.66,f500:5.27,f382:4.88,des20:4.24,dir20:6.31,des1y:2.41,dir1y:6.93,atrStop:5.01,saA:6.25,ka:6.63,o:"KAR AL",sig:"BEKLE"},
+  {t:"EUPWR",l:"Mavi",s:"enerji",alis:null,adet:null,kzTL:null,kzPct:null,toplam:null,f:59.5,rsi:85.6,sk:100.0,sd:90.0,macd:"✓",obv:"✓",adx:32.2,dip:46.7,dim:4.8,atr:3.52,atrp:5.91,vol:0.83,ema20:48.54,ema50:43.3,ema200:36.6,bbU:60.86,bbA:32.5,f618:51.06,f500:47.4,f382:43.74,des20:38.76,dir20:62.8,des1y:23.3,dir1y:62.9,atrStop:52.46,saA:62.17,ka:65.94,o:"KAR AL",sig:"BEKLE"},
+  {t:"XU100",l:"Benchmark",s:"endeks",alis:null,adet:null,kzTL:null,kzPct:null,toplam:null,f:14917.4,rsi:67.6,sk:null,sd:null,macd:"✓",obv:null,adx:64.8,dip:29.4,dim:10.3,atr:262.74,atrp:1.76,vol:null,ema20:14203.88,ema50:13723.05,ema200:12493.64,bbU:null,bbA:null,f618:null,f500:null,f382:null,des20:12876.3,dir20:14622.0,des1y:8964.95,dir1y:15043.6,atrStop:null,saA:null,ka:null,o:"—",sig:"—"}
 ];
+let adxFilter='all';
 const filters={liste:'all',oneri:'all',sinyal:'all'};
-function volCell(v){if(v==null)return'<span style="color:var(--text3)">—</span>';const c=v>1.5?'#A32D2D':v>1.2?'#BA7517':'var(--text3)';const bar=Math.min(v/3*32,32).toFixed(0);return`<div style="display:flex;align-items:center;gap:4px"><div style="width:${bar}px;height:4px;border-radius:2px;background:${c}"></div><span style="font-size:10px;color:${c}">${v.toFixed(2)}x</span></div>`;}
-const ob={TUT:'b-tut','İZLE/HAZIRLAN':'b-haz','KAR AL':'b-karal',SAT:'b-sat',AL:'b-al','—':'b-yok'};
+const ob={TUT:'b-tut',HAZIRLAN:'b-haz','İZLE':'b-izle','KAR AL':'b-karal',SAT:'b-sat',AL:'b-al','GÜÇLENDIR':'b-guc','—':'b-yok'};
 function f(n,d=2){return n!=null?n.toLocaleString('tr-TR',{minimumFractionDigits:d,maximumFractionDigits:d}):'—';}
-function rsiCell(v){if(v==null)return'—';const c=v>70?'#E24B4A':v<35?'#1D9E75':'#378ADD';const tc=v>70?'#A32D2D':v<35?'#0F6E56':'var(--text2)';return`<div class="rsi-wrap"><div class="rsi-bar" style="width:${Math.min(v/100*38,38).toFixed(0)}px;background:${c}"></div><span style="font-size:10px;color:${tc}">${v.toFixed(1)}</span></div>`;}
+function miniBar(v,max,color){
+  if(v==null)return'<span style="color:var(--text3)">—</span>';
+  const w=Math.min(v/max*36,36).toFixed(0);
+  return`<div class="mini-bar"><div class="bar" style="width:${w}px;background:${color}"></div><span style="font-size:10px;color:${color}">${v.toFixed(1)}</span></div>`;
+}
+function rsiCell(v){
+  if(v==null)return'—';
+  const c=v>70?'#E24B4A':v<35?'#1D9E75':'#378ADD';
+  return`<div class="mini-bar"><div class="bar" style="width:${Math.min(v/100*36,36).toFixed(0)}px;background:${c}"></div><span style="font-size:10px;color:${c}">${v.toFixed(1)}</span></div>`;
+}
+function stochCell(k,d){
+  if(k==null)return'—';
+  const c=k>80?'#E24B4A':k<20?'#1D9E75':'#378ADD';
+  const arrow=k>d?'↑':'↓';
+  return`<span style="font-size:10px;color:${c}">${k.toFixed(1)}${arrow}</span>`;
+}
+function adxCell(v){
+  if(v==null)return'—';
+  const c=v>40?'#0F6E56':v>25?'#378ADD':'var(--text3)';
+  const lbl=v>40?'Güçlü':v>25?'Trend':'Yatay';
+  return`<div class="mini-bar"><div class="bar" style="width:${Math.min(v/60*36,36).toFixed(0)}px;background:${c}"></div><span style="font-size:9px;color:${c}">${v.toFixed(0)} ${lbl}</span></div>`;
+}
+function volCell(v){
+  if(v==null)return'—';
+  const c=v>1.5?'#A32D2D':v>1.2?'#BA7517':'var(--text3)';
+  return`<div class="mini-bar"><div class="bar" style="width:${Math.min(v/3*36,36).toFixed(0)}px;background:${c}"></div><span style="font-size:10px;color:${c}">${v.toFixed(2)}x</span></div>`;
+}
 function render(){
   const rows=DATA.filter(d=>{
     if(filters.liste!=='all'&&d.l!==filters.liste)return false;
     if(filters.oneri!=='all'&&d.o!==filters.oneri)return false;
     if(filters.sinyal!=='all'&&d.sig!==filters.sinyal)return false;
+    if(adxFilter==='strong'&&(d.adx==null||d.adx<25))return false;
+    if(adxFilter==='weak'&&(d.adx==null||d.adx>=25))return false;
     return true;
   });
   const p=rows.filter(d=>d.l==='Portföy');
@@ -185,43 +228,54 @@ function render(){
   const kzpEl=document.getElementById('m-kzp');
   kzpEl.textContent=(totKZP>=0?'+':'')+totKZP.toFixed(2)+'%';
   kzpEl.style.color=totKZP>=0?'var(--pos)':'var(--neg)';
-  document.getElementById('m-izle').textContent=rows.filter(d=>d.sig==='AL'||d.o==='İZLE/HAZIRLAN').length;
+  document.getElementById('m-al').textContent=rows.filter(d=>d.o==='AL'||d.o==='GÜÇLENDIR').length;
+  document.getElementById('m-izle').textContent=rows.filter(d=>d.o==='İZLE'||d.o==='HAZIRLAN').length;
   document.getElementById('m-aksiyon').textContent=rows.filter(d=>d.o==='SAT'||d.o==='KAR AL').length;
   const tb=document.getElementById('tb');
-  if(!rows.length){tb.innerHTML='<tr><td colspan="25" style="text-align:center;padding:2rem;color:var(--text3)">Sonuç bulunamadı</td></tr>';return;}
+  if(!rows.length){tb.innerHTML='<tr><td colspan="35" style="text-align:center;padding:2rem;color:var(--text3)">Sonuç bulunamadı</td></tr>';return;}
   tb.innerHTML=rows.map(d=>{
-    const lTag=d.l==='Portföy'?'<span style="color:#A32D2D;font-size:10px;font-weight:500">P</span>':d.l==='Benchmark'?'<span style="color:#888;font-size:10px;">B</span>':'<span style="color:#185FA5;font-size:10px;font-weight:500">M</span>';
-    const sig=d.sig==='AL'?'<span class="sig-al">AL</span>':d.sig==='İZLE'?'<span class="sig-izle">İZLE</span>':'<span class="sig-bekle">'+(d.sig||'—')+'</span>';
-    const rowBg=d.o==='SAT'?'background:rgba(162,45,45,0.04)':d.sig==='AL'?'background:rgba(15,110,86,0.04)':d.sig==='İZLE'?'background:rgba(24,95,165,0.04)':'';
-    const macdColor=d.macd==='✓'?'#1D9E75':'#E24B4A';
+    const lTag=d.l==='Portföy'?'<span style="color:#A32D2D;font-size:9px;font-weight:600">P</span>':d.l==='Benchmark'?'<span style="color:#888;font-size:9px;">B</span>':'<span style="color:#185FA5;font-size:9px;font-weight:600">M</span>';
+    const rowBg=d.o==='SAT'?'background:rgba(162,45,45,0.05)':d.o==='AL'?'background:rgba(15,110,86,0.05)':d.o==='GÜÇLENDIR'?'background:rgba(255,152,0,0.05)':d.o==='İZLE'?'background:rgba(24,95,165,0.04)':d.o==='HAZIRLAN'?'background:rgba(24,95,165,0.06)':"";
+    const macdC=d.macd==='✓'?'#1D9E75':'#E24B4A';
+    const obvC=d.obv==='✓'?'#1D9E75':'#E24B4A';
+    const diC=d.dip!=null&&d.dim!=null?(d.dip>d.dim?'#1D9E75':'#E24B4A'):'var(--text3)';
     return`<tr style="${rowBg}">
       <td class="tk">${d.t}<span class="sec">${d.s}</span></td>
       <td style="text-align:center">${lTag}</td>
-      <td class="sep" style="color:var(--text2)">${d.alis!=null?f(d.alis):'—'}</td>
-      <td style="text-align:center">${d.adet!=null?d.adet:'—'}</td>
+      <td class="sep" style="color:var(--text2);font-size:10px">${d.alis!=null?f(d.alis):'—'}</td>
+      <td style="text-align:center;font-size:10px">${d.adet!=null?d.adet:'—'}</td>
       <td class="${d.kzTL!=null?(d.kzTL>=0?'pos':'neg'):''}">
         ${d.kzTL!=null?(d.kzTL>=0?'+':'')+f(d.kzTL):'—'}</td>
       <td class="${d.kzPct!=null?(d.kzPct>=0?'pos':'neg'):''}">
-        ${d.kzPct!=null?(d.kzPct>=0?'+':'')+f(Math.abs(d.kzPct))+'%':'—'}</td>
+        ${d.kzPct!=null?(d.kzPct>=0?'+':'-')+f(Math.abs(d.kzPct))+'%':'—'}</td>
       <td class="sep" style="font-weight:500">${d.f!=null?f(d.f):'—'}</td>
-      <td>${rsiCell(d.rsi)}</td>
-      <td style="text-align:center;font-size:12px;color:${macdColor}">${d.macd||'—'}</td>
       <td>${volCell(d.vol)}</td>
-      <td class="sep" style="color:var(--text2);font-size:10px">${f(d.ema20)}</td>
-      <td style="color:var(--text2);font-size:10px">${f(d.ema50)}</td>
-      <td style="color:var(--text3);font-size:10px">${f(d.ema200)}</td>
-      <td class="sep" style="color:#1D9E75;font-size:10px">${f(d.des20)}</td>
-      <td style="color:#E24B4A;font-size:10px">${f(d.dir20)}</td>
-      <td style="color:var(--text3);font-size:10px">${f(d.des1y)}</td>
-      <td style="color:var(--text3);font-size:10px">${f(d.dir1y)}</td>
-      <td class="sep" style="color:#1D9E75;font-size:10px">${f(d.bbA)}</td>
-      <td style="color:#E24B4A;font-size:10px">${f(d.bbU)}</td>
-      <td class="sep" style="color:var(--text2);font-size:10px">${f(d.alA)}</td>
-      <td style="color:var(--text2);font-size:10px">${f(d.saA)}</td>
-      <td style="color:#A32D2D;font-size:10px">${f(d.stop)}</td>
-      <td style="color:#0F6E56;font-size:10px">${f(d.ka)}</td>
-      <td class="sep">${sig}</td>
-      <td><span class="badge ${ob[d.o]||'b-yok'}">${d.o||'—'}</span></td>
+      <td class="sep">${rsiCell(d.rsi)}</td>
+      <td>${stochCell(d.sk,d.sd)}</td>
+      <td style="font-size:10px;color:var(--text3)">${d.sd!=null?d.sd.toFixed(1):'—'}</td>
+      <td style="text-align:center;font-size:11px;color:${obvC}">${d.obv||'—'}</td>
+      <td class="sep">${adxCell(d.adx)}</td>
+      <td style="font-size:10px;color:${diC}">${d.dip!=null?d.dip.toFixed(1):'—'}</td>
+      <td style="font-size:10px;color:${d.dim!=null&&d.dip!=null?(d.dim>d.dip?'#E24B4A':'var(--text3)'):'var(--text3)'}">${d.dim!=null?d.dim.toFixed(1):'—'}</td>
+      <td style="text-align:center;font-size:11px;color:${macdC}">${d.macd||'—'}</td>
+      <td class="sep" style="font-size:10px;color:var(--warn)">${d.atr!=null?f(d.atr):'—'}</td>
+      <td style="font-size:10px;color:var(--warn)">${d.atrp!=null?d.atrp.toFixed(1)+'%':'—'}</td>
+      <td class="sep" style="font-size:10px;color:var(--text2)">${f(d.ema20)}</td>
+      <td style="font-size:10px;color:var(--text2)">${f(d.ema50)}</td>
+      <td style="font-size:10px;color:var(--text3)">${f(d.ema200)}</td>
+      <td class="sep" style="font-size:10px;color:#1D9E75">${f(d.bbA)}</td>
+      <td style="font-size:10px;color:#E24B4A">${f(d.bbU)}</td>
+      <td class="sep" style="font-size:10px;color:#7B5EA7">${f(d.f618)}</td>
+      <td style="font-size:10px;color:#7B5EA7">${f(d.f500)}</td>
+      <td style="font-size:10px;color:#7B5EA7">${f(d.f382)}</td>
+      <td class="sep" style="font-size:10px;color:#1D9E75">${f(d.des20)}</td>
+      <td style="font-size:10px;color:#E24B4A">${f(d.dir20)}</td>
+      <td style="font-size:10px;color:var(--text3)">${f(d.des1y)}</td>
+      <td style="font-size:10px;color:var(--text3)">${f(d.dir1y)}</td>
+      <td class="sep" style="font-size:10px;color:#A32D2D;font-weight:500">${f(d.atrStop)}</td>
+      <td style="font-size:10px;color:var(--text2)">${f(d.saA)}</td>
+      <td style="font-size:10px;color:#0F6E56">${f(d.ka)}</td>
+      <td class="sep"><span class="badge ${ob[d.o]||'b-yok'}">${d.o||'—'}</span></td>
     </tr>`;
   }).join('');
 }
@@ -230,6 +284,11 @@ function setF(key,val,btn){
   const grp=btn.dataset.g;
   if(grp)document.querySelectorAll(`[data-g="${grp}"]`).forEach(b=>b.classList.remove('active'));
   else document.querySelectorAll('.fbtn:not([data-g])').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');render();
+}
+function setADX(val,btn){
+  adxFilter=val;
+  document.querySelectorAll('[data-g="adx"]').forEach(b=>b.classList.remove('active'));
   btn.classList.add('active');render();
 }
 render();
